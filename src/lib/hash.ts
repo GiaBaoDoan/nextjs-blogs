@@ -8,6 +8,6 @@ export const hashPassword = async (text: string) => {
 };
 
 export const comparePassword = async (password: string, hash: string) => {
-  const isMatch = await compare(password, hash); // true;
+  const isMatch = await compare(password, hash);
   return isMatch;
 };

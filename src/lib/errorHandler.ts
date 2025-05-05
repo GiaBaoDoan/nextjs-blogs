@@ -12,7 +12,9 @@ export function withErrorHandler(
     try {
       return await handler(req, { params });
     } catch (err: any) {
+      console.log(err);
       const customError = err as CustomError;
+
       const status = customError?.status || 500;
       const message = customError?.message || "Internal Server Error";
 

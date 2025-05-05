@@ -23,8 +23,8 @@ import {
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import LoginFormSchema, { LoginType } from "@/schema/login.schema";
-import { LoginThunk } from "@/store/thunk/login";
-import useAsyncAction from "@/hooks/useAction";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export function LoginForm() {
   const form = useForm<LoginType>({
@@ -35,12 +35,19 @@ export function LoginForm() {
     },
   });
 
-  const { execute } = useAsyncAction();
+  const router = useRouter();
 
-  function onSubmit(data: LoginType) {
-    execute({
-      actionCreator: () => LoginThunk(data),
+  async function onSubmit(data: LoginType) {
+    const res = await signIn("credentials", {
+      redirect: false,
+      ...data,
     });
+
+    console.log(res);
+
+    if (res?.ok) {
+      router.push("/profile");
+    }
   }
 
   return (

@@ -1,17 +1,14 @@
 import connect from "@/lib/database";
 import { withErrorHandler } from "@/lib/errorHandler";
-import UserModel from "@/models/User";
+import { deleteUser, getUserById, updateUser } from "@/lib/user";
 import { tParams } from "@/types";
 import { NextRequest, NextResponse } from "next/server";
 
 connect();
 
-async function getUserById(
-  request: NextRequest,
-  { params }: { params: tParams }
-) {
+async function getHandler(_: NextRequest, { params }: { params: tParams }) {
   const { id } = await params;
-  const user = await UserModel.findById(id).select("-password");
+  const user = await getUserById(id);
 
   return NextResponse.json(
     {
@@ -22,32 +19,9 @@ async function getUserById(
   );
 }
 
-async function updateUser(
-  request: NextRequest,
-  { params }: { params: tParams }
-) {
-  const body = request.json();
-
+async function deleteHandler(_: NextRequest, { params }: { params: tParams }) {
   const { id } = await params;
-
-  await UserModel.findByIdAndUpdate(id, body, {
-    new: true,
-  });
-
-  return NextResponse.json(
-    {
-      message: "Đã cập nhật user !!",
-    },
-    { status: 200 }
-  );
-}
-
-async function deleteUser(
-  request: NextRequest,
-  { params }: { params: tParams }
-) {
-  const { id } = await params;
-  await UserModel.findByIdAndUpdate(id);
+  await deleteUser(id);
 
   return NextResponse.json(
     {
@@ -57,6 +31,23 @@ async function deleteUser(
   );
 }
 
-export const GET = withErrorHandler(getUserById);
-export const PUT = withErrorHandler(updateUser);
-export const DELETE = withErrorHandler(deleteUser);
+async function putHandler(
+  request: NextRequest,
+  { params }: { params: tParams }
+) {
+  const { id } = await params;
+  const body = await request.json();
+
+  await updateUser(id, body);
+
+  return NextResponse.json(
+    {
+      message: "Cập nhật user thành công",
+    },
+    { status: 200 }
+  );
+}
+
+export const GET = withErrorHandler(getHandler);
+export const PUT = withErrorHandler(putHandler);
+export const DELETE = withErrorHandler(deleteHandler);

@@ -7,4 +7,4 @@ export interface HttpError {
   message: string;
 }
 
-export type tParams = Promise<{ id: string[] }>;
+export type tParams = Promise<{ id: string }>;

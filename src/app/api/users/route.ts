@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 connect();
 
-const getHandler = async (request: NextRequest) => {
+const getHandler = async (_: NextRequest) => {
   const users = await UserModel.find().select("-password");
 
   return NextResponse.json(
