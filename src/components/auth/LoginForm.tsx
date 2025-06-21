@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+
 import {
   Card,
   CardContent,
@@ -21,13 +23,14 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import Link from "next/link";
-import LoginFormSchema, { LoginType } from "@/schema/login.schema";
+import { LoginSchemaType, LoginFormSchema } from "@/schema/login.schema";
 import { signIn } from "next-auth/react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
+import AlertBox from "@/components/ui/alert-box";
 
 export function LoginForm() {
-  const form = useForm<LoginType>({
+  const form = useForm<LoginSchemaType>({
     resolver: zodResolver(LoginFormSchema),
     defaultValues: {
       email: "",
@@ -37,16 +40,23 @@ export function LoginForm() {
 
   const router = useRouter();
 
-  async function onSubmit(data: LoginType) {
+  const [message, setMessage] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  async function onSubmit(data: LoginSchemaType) {
+    setIsLoading(true);
+
     const res = await signIn("credentials", {
-      redirect: false,
       ...data,
+      redirect: false,
     });
 
-    console.log(res);
-
-    if (res?.ok) {
-      router.push("/profile");
+    if (!res?.ok) {
+      setMessage(res?.error as string);
+      setIsLoading(false);
+    } else {
+      setIsLoading(false);
+      router.push("/");
     }
   }
 
@@ -62,6 +72,7 @@ export function LoginForm() {
             <FormField
               control={form.control}
               name="email"
+              disabled={isLoading}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Email</FormLabel>
@@ -73,6 +84,7 @@ export function LoginForm() {
               )}
             />
             <FormField
+              disabled={isLoading}
               control={form.control}
               name="password"
               render={({ field }) => (
@@ -86,18 +98,19 @@ export function LoginForm() {
               )}
             />
             <Link
-              className="text-sm inline-block hover:underline"
+              className="text-xs inline-block hover:underline text-red-600"
               href={"/auth/forgot-password"}
             >
               Quên mật khẩu ?
             </Link>
-            <Button className="text-center w-full" type="submit">
+            <AlertBox message={message} type={"error"} />
+            <Button disabled={isLoading} className="w-full p-7" type="submit">
               Đăng nhập
             </Button>
           </form>
         </Form>
       </CardContent>
-      <CardFooter className="justify-center text-sm hover:underline">
+      <CardFooter className="justify-center text-xs hover:underline text-red-600">
         <Link href={"/auth/signup"}>Bạn chưa có tài khoản ?</Link>
       </CardFooter>
     </Card>

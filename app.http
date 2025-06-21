@@ -1,28 +1,10 @@
+GET http://localhost:3000/api/category/6813903c56808d1e1d5b4dcd
 ####
-POST http://localhost:3000/api/auth/signup 
-Content-Type: "application/json"
+GET http://localhost:3000/api/tags
+####
+POST http://localhost:3000/api/tags
 
 {
-    "username" : "gia bao",
-    "email" : "giabaod345@gmail.com",
-    "password" :"Pa$$w0rd!"
-}
-####
-POST http://localhost:3000/api/auth/login 
-Content-Type: "application/json"
-
-{
-    "email" : "giabao",
-    "password" :"lkkksa"
-}
-####
-GET http://localhost:3000/api/users/
-####
-GET http://localhost:3000/api/users/6813903c56808d1e1d5b4dcd
-###
-POST http://localhost:3000/api/users
-Content-Type: application/json
-
-{
-    "name" :"hello"
+    "name" : "Hữu ích",
+    "slug" : "huu-ich"
 }

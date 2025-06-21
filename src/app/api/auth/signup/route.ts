@@ -1,6 +1,9 @@
 import { signup } from "@/lib/auth";
-import connect from "@/lib/database";
+import { sendEmail } from "@/lib/email";
 import { withErrorHandler } from "@/lib/errorHandler";
+import { createHashToken } from "@/lib/token";
+import { User } from "@/types/user.type";
+import connect from "@/lib/database";
 import { NextRequest, NextResponse } from "next/server";
 
 connect();
@@ -8,11 +11,17 @@ connect();
 async function postHandler(request: NextRequest) {
   const body = await request.json();
 
-  await signup(body);
+  const user = (await signup(body)) as User;
+
+  const token = await createHashToken(user._id);
+
+  const link = `http://localhost:3000/auth/verify/${user._id}/${token}`;
+
+  await sendEmail({ email: user.email, link });
 
   return NextResponse.json(
     {
-      message: "Đăng ký thành công !!",
+      message: "Vui lòng kiểm tra email !!",
     },
     {
       status: 201,

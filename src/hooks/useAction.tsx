@@ -20,7 +20,7 @@ export default function useAsyncAction<T>() {
     setIsLoading(true);
     try {
       const res = (await dispatch(actionCreator()).unwrap()) as Response<T>;
-      toast(res.message, {
+      toast("👍 Thành công", {
         description: (
           <p className="mt-2 w-[320px] rounded-md bg-slate-950 p-4">
             <code className="text-white">

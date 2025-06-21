@@ -1,4 +1,4 @@
-import { getAllUsers } from "@/store/thunk/getAllUsers";
+import { getAllUsers } from "@/store/thunk/get-list-users";
 import { HttpError } from "@/types";
 import { User } from "@/types/user.type";
 import { createSlice } from "@reduxjs/toolkit";

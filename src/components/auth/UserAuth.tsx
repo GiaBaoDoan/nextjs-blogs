@@ -1,0 +1,88 @@
+"use client";
+
+import Link from "next/link";
+import Image from "next/image";
+import UserAvatar from "@/components/users/UserAvatar";
+
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+
+import { Button } from "@/components/ui/button";
+import { LogOut, Settings, User } from "lucide-react";
+import { signOut } from "next-auth/react";
+import { useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "@/store/store";
+import { getAccount } from "@/store/thunk/get-account";
+
+const UserAuth = () => {
+  const dispatch = useAppDispatch();
+
+  const { account } = useAppSelector((state) => state.AccountReducer);
+
+  useEffect(() => {
+    dispatch(getAccount());
+  }, [dispatch]);
+
+  return account ? (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <button>
+          {account.image ? (
+            <Image
+              src={account.image}
+              alt="avatar"
+              width={100}
+              height={100}
+              className="rounded-full w-10 h-10 object-cover"
+            />
+          ) : (
+            <UserAvatar />
+          )}
+        </button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end">
+        <DropdownMenuLabel className="text-sm">
+          {account.username}
+        </DropdownMenuLabel>
+        <DropdownMenuItem className="text-xs text-muted-foreground">
+          {account.email}
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem asChild>
+          <Link href="/account">
+            <User className="mr-2 h-4 w-4" />
+            Tài khoản
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem asChild>
+          <Link href="/account/settings">
+            <Settings className="mr-2 h-4 w-4" />
+            Cài đặt
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem onClick={() => signOut()}>
+          <LogOut className="mr-2 h-4 w-4" />
+          Đăng xuất
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  ) : (
+    <div className="flex gap-2">
+      <Button variant="ghost" asChild>
+        <Link href="/auth/login">Đăng nhập</Link>
+      </Button>
+      <Button asChild>
+        <Link href="/auth/register">Đăng ký</Link>
+      </Button>
+    </div>
+  );
+};
+
+export default UserAuth;

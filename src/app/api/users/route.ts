@@ -3,9 +3,8 @@ import UserModel from "@/models/User";
 import { withErrorHandler } from "@/lib/errorHandler";
 import { NextRequest, NextResponse } from "next/server";
 
-connect();
-
 const getHandler = async (_: NextRequest) => {
+  await connect();
   const users = await UserModel.find().select("-password");
 
   return NextResponse.json(

@@ -1,7 +1,7 @@
 import CustomError from "@/lib/cutomError";
 import { hashPassword } from "@/lib/hash";
 import UserModel from "@/models/User";
-import { UserFormType } from "@/schema/user.schema";
+import { UserSchemaType } from "@/schema/user.schema";
 
 export async function getUserById(id: string) {
   const user = await UserModel.findById(id).select("-password");
@@ -12,13 +12,11 @@ export async function getUserById(id: string) {
 }
 
 export async function deleteUser(id: string) {
-  await getUserById(id);
-
   const user = await UserModel.findByIdAndDelete(id);
   return user;
 }
 
-export async function updateUser(id: string, body: UserFormType) {
+export async function updateUser(id: string, body: UserSchemaType) {
   if (body.password) {
     body.password = await hashPassword(body.password);
   }

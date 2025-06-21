@@ -1,24 +1,17 @@
-import CustomError from "@/lib/cutomError";
-import { tParams } from "@/types";
 import { NextRequest, NextResponse } from "next/server";
 
-export function withErrorHandler(
-  handler: (
-    req: NextRequest,
-    { params }: { params: tParams }
-  ) => Promise<NextResponse>
-) {
-  return async function (req: NextRequest, { params }: { params: tParams }) {
+export function withErrorHandler<
+  T extends (req: NextRequest, ctx: any) => Promise<NextResponse>
+>(handler: T): T {
+  return (async (req: NextRequest, ctx: any) => {
     try {
-      return await handler(req, { params });
+      return await handler(req, ctx);
     } catch (err: any) {
       console.log(err);
-      const customError = err as CustomError;
-
-      const status = customError?.status || 500;
-      const message = customError?.message || "Internal Server Error";
+      const message = err.message || "Internal Server Error";
+      const status = err.status || 500;
 
       return NextResponse.json({ message }, { status });
     }
-  };
+  }) as T;
 }

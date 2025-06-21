@@ -1,20 +1,39 @@
-import CredentialsProvider from "next-auth/providers/credentials";
-import type { NextAuthOptions } from "next-auth";
+import GoogleProvider from "next-auth/providers/google";
+import { NextAuthOptions } from "next-auth";
+import Credentials from "next-auth/providers/credentials";
 import { login } from "@/lib/auth";
+import { JWT } from "next-auth/jwt";
+import { User } from "@/types/user.type";
 
 export const authOptions: NextAuthOptions = {
   providers: [
-    CredentialsProvider({
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+      authorization: {
+        params: {
+          prompt: "select_account",
+        },
+      },
+    }),
+    Credentials({
       name: "Credentials",
       credentials: {
         email: {},
         password: {},
       },
       async authorize(credentials) {
-        if (!credentials) return null;
-        const user = await login(credentials);
-
-        return user;
+        if (!credentials?.email || !credentials?.password) return null;
+        const user = (await login(credentials)) as User;
+        if (user) {
+          return {
+            id: user._id,
+            name: user.username,
+            email: user.email,
+            image: user.image,
+          };
+        }
+        return null;
       },
     }),
   ],
@@ -22,20 +41,29 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.user = user;
+        token = {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          image: user.image,
+        };
       }
       return token;
     },
     async session({ session, token }) {
-      session.user = token.user as typeof session.user;
+      if (token.user) {
+        session.user = token;
+      }
       return session;
     },
   },
   session: {
-    strategy: "jwt",
     maxAge: 30 * 24 * 60 * 60,
   },
+
   pages: {
     signIn: "/login",
   },
+
+  secret: process.env.NEXTAUTH_SECRET,
 };

@@ -15,7 +15,7 @@ import {
 import { Input } from "@/components/ui/input";
 import UserFormSchema, {
   UserDefaultValues,
-  UserFormType,
+  UserSchemaType,
 } from "@/schema/user.schema";
 import {
   Select,
@@ -27,11 +27,12 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { useEffect } from "react";
 import useAsyncAction from "@/hooks/useAction";
-import { updateUser } from "@/store/thunk/updateUser";
+import { updateUser } from "@/store/thunk/update-user";
 import { useParams } from "next/navigation";
+import { UserRole, UserStatus } from "@/constants/enum";
 
-export function UserForm({ user }: { user: UserFormType }) {
-  const form = useForm<UserFormType>({
+export function UserForm({ user }: { user: UserSchemaType }) {
+  const form = useForm<UserSchemaType>({
     resolver: zodResolver(UserFormSchema),
     defaultValues: user || UserDefaultValues,
   });
@@ -40,7 +41,7 @@ export function UserForm({ user }: { user: UserFormType }) {
 
   const { execute, isLoading } = useAsyncAction();
 
-  const onSubmit = (data: UserFormType) => {
+  const onSubmit = (data: UserSchemaType) => {
     execute({
       actionCreator: () => updateUser({ id: `${id}`, data }),
     });
@@ -56,16 +57,19 @@ export function UserForm({ user }: { user: UserFormType }) {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 mt-5">
         <section className="grid grid-cols-3 gap-5 items-start">
-          <div className="border p-5 rounded-lg space-y-8 shadow col-span-2">
+          <div className="border p-5 rounded-lg space-y-6 shadow col-span-2">
+            <div>
+              <h3 className="mb-3">Thông tin</h3>
+              <hr />
+            </div>
             <FormField
               control={form.control}
               name="email"
               disabled={isLoading}
               render={({ field }) => (
-                <FormItem>
-                  <FormLabel>
-                    <p>{field.value}</p>
-                  </FormLabel>
+                <FormItem className="flex">
+                  <FormLabel className="w-40">Email</FormLabel>
+                  <p className="text-sm w-full">{field.value}</p>
                 </FormItem>
               )}
             />
@@ -74,10 +78,10 @@ export function UserForm({ user }: { user: UserFormType }) {
               name="username"
               disabled={isLoading}
               render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Họ tên</FormLabel>
+                <FormItem className="flex">
+                  <FormLabel className="w-40">Họ tên</FormLabel>
                   <FormControl>
-                    <Input placeholder="Họ tên" {...field} />
+                    <Input {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -89,10 +93,10 @@ export function UserForm({ user }: { user: UserFormType }) {
               name="address"
               disabled={isLoading}
               render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Địa chỉ</FormLabel>
+                <FormItem className="flex">
+                  <FormLabel className="w-40">Địa chỉ</FormLabel>
                   <FormControl>
-                    <Input placeholder="Địa chỉ" {...field} />
+                    <Input {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -103,8 +107,8 @@ export function UserForm({ user }: { user: UserFormType }) {
               name="password"
               disabled={isLoading}
               render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Mật khẩu</FormLabel>
+                <FormItem className="flex">
+                  <FormLabel className="w-40">Mật khẩu</FormLabel>
                   <FormControl>
                     <Input type="password" {...field} />
                   </FormControl>
@@ -117,10 +121,10 @@ export function UserForm({ user }: { user: UserFormType }) {
               name="bio"
               disabled={isLoading}
               render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Bio</FormLabel>
+                <FormItem className="flex">
+                  <FormLabel className="w-40">Mô tả</FormLabel>
                   <FormControl>
-                    <Textarea className="min-h-[150px]" {...field} />
+                    <Textarea className="min-h-[80px]" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -130,14 +134,15 @@ export function UserForm({ user }: { user: UserFormType }) {
           <div className="border p-5 rounded-lg space-y-5 shadow">
             <FormField
               control={form.control}
-              name="isAdmin"
+              name="role"
               disabled={isLoading}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Quyền</FormLabel>
                   <Select
-                    value={`${field.value}`}
-                    onValueChange={(val) => field.onChange(val === "true")}
+                    {...field}
+                    onValueChange={field.onChange}
+                    disabled={isLoading}
                   >
                     <FormControl>
                       <SelectTrigger className="w-full">
@@ -145,8 +150,9 @@ export function UserForm({ user }: { user: UserFormType }) {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="true">Admin</SelectItem>
-                      <SelectItem value="false">Người dùng</SelectItem>
+                      <SelectItem value={UserRole.admin}>Admin</SelectItem>
+                      <SelectItem value={UserRole.staff}>Nhân viên</SelectItem>
+                      <SelectItem value={UserRole.user}>Người dùng</SelectItem>
                     </SelectContent>
                   </Select>
                   <FormMessage />
@@ -160,10 +166,10 @@ export function UserForm({ user }: { user: UserFormType }) {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Status</FormLabel>
-
                   <Select
-                    value={`${field.value}`}
-                    onValueChange={(val) => field.onChange(val === "true")}
+                    {...field}
+                    onValueChange={field.onChange}
+                    disabled={isLoading}
                   >
                     <FormControl>
                       <SelectTrigger className="w-full">
@@ -171,8 +177,16 @@ export function UserForm({ user }: { user: UserFormType }) {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="true">Hiển thị</SelectItem>
-                      <SelectItem value="false">Ẩn danh</SelectItem>
+                      <SelectItem value={UserStatus.PUBLIC}>
+                        Công khai
+                      </SelectItem>
+                      <SelectItem value={UserStatus.PENDING}>
+                        Chờ duyệt
+                      </SelectItem>
+                      <SelectItem value={UserStatus.PRIVATE}>
+                        Lưu trữ
+                      </SelectItem>
+                      <SelectItem value={UserStatus.DRAFT}>Nháp</SelectItem>
                     </SelectContent>
                   </Select>
                   <FormMessage />
@@ -185,6 +199,7 @@ export function UserForm({ user }: { user: UserFormType }) {
           </div>
         </section>
       </form>
+      <div className="space-x-2"></div>
     </Form>
   );
 }

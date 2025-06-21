@@ -1,28 +1,26 @@
+import { UserRole, UserStatus } from "@/constants/enum";
 import { z } from "zod";
 
 export const UserFormSchema = z.object({
-  email: z.string().email({ message: "Email không hợp lệ" }),
-  password: z
-    .string()
-    .min(6, { message: "Mật khẩu phải ít nhất 6 ký tự" })
-    .optional(),
-  username: z.string().min(1, { message: "Tên người dùng là bắt buộc" }),
-  isAdmin: z.boolean().optional(),
-  status: z.boolean().optional(),
+  email: z.string().email(),
+  password: z.string().min(6).max(40).optional(),
+  username: z.string().min(1).max(40),
+  role: z.string().min(1),
+  status: z.string().min(1),
   bio: z.string().max(200).optional(),
-  address: z.string().optional(),
+  address: z.string().max(200).optional(),
 });
 
-export type UserFormType = z.infer<typeof UserFormSchema>;
+export type UserSchemaType = z.infer<typeof UserFormSchema>;
 
-export const UserDefaultValues: UserFormType = {
+export const UserDefaultValues: UserSchemaType = {
   email: "",
   username: "",
   address: "",
   bio: "",
   password: "",
-  isAdmin: true,
-  status: true,
+  role: UserRole.user,
+  status: UserStatus.PRIVATE,
 };
 
 export default UserFormSchema;
