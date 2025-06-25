@@ -31,6 +31,7 @@ import {
   ColumnDef,
   PaginationState,
   getFilteredRowModel,
+  Column,
 } from "@tanstack/react-table";
 import {
   ChevronDown,
@@ -44,12 +45,14 @@ import { useState } from "react";
 interface DataTableProps<TData> {
   columns: ColumnDef<TData, any>[];
   data: TData[];
+  filterColumnKey?: string;
   initialPageSize?: number;
 }
 
 export function DataTable<TData>({
   columns,
   data,
+  filterColumnKey = "",
   initialPageSize = 10,
 }: DataTableProps<TData>) {
   const [pagination, setPagination] = useState<PaginationState>({
@@ -72,10 +75,12 @@ export function DataTable<TData>({
       {/* Filter data table */}
       <div className="flex items-center py-4">
         <Input
-          placeholder="Filter emails..."
-          value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
+          placeholder={`Filter by ${filterColumnKey}`}
+          value={
+            (table.getColumn(filterColumnKey)?.getFilterValue() as string) ?? ""
+          }
           onChange={(event) =>
-            table.getColumn("title")?.setFilterValue(event.target.value)
+            table.getColumn(filterColumnKey)?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />

@@ -1,32 +1,30 @@
-import { useAppDispatch, useAppSelector } from "@/store/store";
-import { getListBlogs } from "@/store/thunk/get-list-blogs";
 import { useParams } from "next/navigation";
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import { ChevronsLeft, ChevronsRight } from "lucide-react";
 import { Blog } from "@/types/blog.type";
+import { usePosts } from "@/hooks/useBlogs";
 import Link from "next/link";
+import useQuery from "@/hooks/useQuery";
 
-function usePrevNextPost(blogs: Blog[], slug: string) {
+function usePrevNextPost(blogs: Blog[] | [], slug: string) {
   return useMemo(() => {
-    const index = blogs.findIndex((blog) => blog.slug === slug);
+    const index = blogs?.findIndex((blog) => blog.slug === slug);
     const prev = index > 0 ? blogs[index - 1] : null;
-    const next = index < blogs.length - 1 ? blogs[index + 1] : null;
+    const next = index < blogs?.length - 1 ? blogs[index + 1] : null;
     return { prev, next };
   }, [blogs, slug]);
 }
 
 export default function BlogPostNavigation() {
-  const dispatch = useAppDispatch();
-
   const { slug } = useParams();
 
-  const { blogs } = useAppSelector((state) => state.BlogListReducer);
+  const { queries } = useQuery({ limit: 100 });
+
+  const { data } = usePosts(queries);
+
+  const blogs = data?.data as Blog[] | [];
 
   const { prev, next } = usePrevNextPost(blogs, slug as string);
-
-  useEffect(() => {
-    dispatch(getListBlogs(""));
-  }, [dispatch]);
 
   return (
     <div className="mt-10 grid grid-cols-2 gap-4">

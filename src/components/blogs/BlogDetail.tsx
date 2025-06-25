@@ -1,14 +1,10 @@
 "use client";
 
 import { Badge } from "@/components/ui/badge";
-import { useAppDispatch, useAppSelector } from "@/store/store";
-import { getBlogById } from "@/store/thunk/get-detail-blog";
 import { useParams } from "next/navigation";
-import { useEffect } from "react";
 import { format } from "date-fns";
 import { MessageSquare } from "lucide-react";
 
-import Loading from "@/components/ui/loading";
 import Breadcrumbs from "@/components/ui/breadcumb-links";
 import BlogPostNavigation from "@/components/blogs/BlogPostNavigation";
 import Link from "next/link";
@@ -18,16 +14,14 @@ import CommentList from "@/components/comments/CommentList";
 import CommentForm from "@/components/comments/CommentForm";
 import { BlogDetailSkeleton } from "@/components/blogs/BlogDetailSeketon";
 
-const BlogDetail = () => {
-  const dispatch = useAppDispatch();
+import { usePost } from "@/hooks/useBlogs";
 
+const BlogDetail = () => {
   const { slug } = useParams();
 
-  const { blog, isLoading } = useAppSelector((state) => state.BlogReducer);
+  const { data, isLoading } = usePost(slug as string);
 
-  useEffect(() => {
-    dispatch(getBlogById(`${slug}`));
-  }, [dispatch, slug]);
+  const blog = data?.data;
 
   if (isLoading) return <BlogDetailSkeleton />;
 
@@ -80,8 +74,8 @@ const BlogDetail = () => {
 
       <section className="max-w-3xl mx-auto space-y-10">
         <hr />
-        <CommentList />
-        <CommentForm />
+        <CommentList blogId={blog?._id || ""} />
+        <CommentForm blogId={blog?._id || ""} />
       </section>
 
       <section className="mt-24">

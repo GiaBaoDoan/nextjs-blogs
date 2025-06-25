@@ -11,45 +11,27 @@ import {
 import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useAppDispatch, useAppSelector } from "@/store/store";
 import { useEffect } from "react";
-import { User } from "@/types/user.type";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { updateProfile } from "@/store/thunk/update-profile";
-import { getAccount } from "@/store/thunk/get-account";
-import useAsyncAction from "@/hooks/useAction";
+import { User } from "@/types/user.type";
+import {
+  profileFormSchema,
+  ProfileType,
+  defaultValues,
+} from "@/schema/profile.schema";
+import { useUpdateProfile } from "@/hooks/useAccount";
 
-const profileFormSchema = z.object({
-  username: z.string().min(2).max(50),
-  phone: z.string().min(9),
-});
-
-export type ProfileType = z.infer<typeof profileFormSchema>;
-
-const Profile = () => {
+const Profile = ({ account }: { account: User }) => {
   const form = useForm<ProfileType>({
     resolver: zodResolver(profileFormSchema),
-    defaultValues: {
-      username: "",
-      phone: "",
-    },
+    defaultValues,
   });
 
-  const { account } = useAppSelector((state) => state.AccountReducer);
-  const { execute, isLoading } = useAsyncAction();
-
-  const dispatch = useAppDispatch();
-  const onSubmit = (data: ProfileType) => {
-    execute({
-      actionCreator: () => updateProfile(data),
-      callBack: () => dispatch(getAccount()),
-    });
-  };
+  const updateProfile = useUpdateProfile();
 
   useEffect(() => {
     if (account) {
-      form.reset(account as User);
+      form.reset(account);
     }
   }, [form, account]);
 
@@ -59,11 +41,15 @@ const Profile = () => {
         <h4>Hồ sơ</h4>
         <hr />
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 ">
+          <form
+            onSubmit={form.handleSubmit((data: ProfileType) =>
+              updateProfile.mutate(data)
+            )}
+            className="space-y-6 "
+          >
             <FormField
               control={form.control}
               name="username"
-              disabled={isLoading}
               render={({ field }) => (
                 <FormItem className="flex">
                   <FormLabel className="w-40">Họ tên</FormLabel>
@@ -79,7 +65,6 @@ const Profile = () => {
             <FormField
               control={form.control}
               name="phone"
-              disabled={isLoading}
               render={({ field }) => (
                 <FormItem className="flex">
                   <FormLabel className="w-40">Số điện thoại</FormLabel>
@@ -97,7 +82,7 @@ const Profile = () => {
               )}
             />
 
-            <Button disabled={isLoading} variant="secondary" type="submit">
+            <Button variant="secondary" type="submit">
               Lưu lại
             </Button>
           </form>

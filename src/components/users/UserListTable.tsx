@@ -1,28 +1,18 @@
 "use client";
 
-import { useAppDispatch, useAppSelector } from "@/store/store";
-import { getAllUsers } from "@/store/thunk/get-list-users";
-import { useEffect } from "react";
 import { format } from "date-fns";
 import { Badge } from "@/components/ui/badge";
-import { deleteUser } from "@/store/thunk/delete-user";
-
 import { ColumnDef } from "@tanstack/react-table";
 import { User } from "@/types/user.type";
 import { DataTable } from "@/components/ui/data-table";
+import { useUsers } from "@/hooks/useUsers";
 
 import Action from "@/components/ui/action";
 import Image from "next/image";
 import UserAvatar from "@/components/users/UserAvatar";
-import { UserStatus } from "@/constants/enum";
 
 export function UserListTable() {
-  const dispatch = useAppDispatch();
-  const { users } = useAppSelector((state) => state.UserListReducer);
-
-  useEffect(() => {
-    dispatch(getAllUsers());
-  }, [dispatch]);
+  const { data } = useUsers();
 
   const columns: ColumnDef<User>[] = [
     {
@@ -81,10 +71,16 @@ export function UserListTable() {
       header: "Action",
       cell: ({ row }) => {
         const id = row.original._id;
-        return <Action onDelete={() => deleteUser(id)} id={id} />;
+        return <Action onDelete={() => {}} id={id} />;
       },
     },
   ];
 
-  return <DataTable data={users} columns={columns} />;
+  return (
+    <DataTable
+      filterColumnKey="email"
+      data={(data?.data as User[]) || []}
+      columns={columns}
+    />
+  );
 }

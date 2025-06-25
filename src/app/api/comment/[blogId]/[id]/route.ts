@@ -18,7 +18,7 @@ const deleteHandler = async (
   }
 ) => {
   await connect();
-  const { id, blogId } = await params;
+  const { id } = await params;
 
   const comment = await CommentModel.findByIdAndDelete(id);
   if (!comment) throw new CustomError("Không tìm thấy bình luận!", 404);

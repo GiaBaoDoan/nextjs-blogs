@@ -16,19 +16,11 @@ import {
 import { Button } from "@/components/ui/button";
 import { LogOut, Settings, User } from "lucide-react";
 import { signOut } from "next-auth/react";
-import { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "@/store/store";
-import { getAccount } from "@/store/thunk/get-account";
+import { useFetchAccount } from "@/hooks/useAccount";
 
 const UserAuth = () => {
-  const dispatch = useAppDispatch();
-
-  const { account } = useAppSelector((state) => state.AccountReducer);
-
-  useEffect(() => {
-    dispatch(getAccount());
-  }, [dispatch]);
-
+  const { data } = useFetchAccount();
+  const account = data?.data;
   return account ? (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>

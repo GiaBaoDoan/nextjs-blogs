@@ -36,7 +36,7 @@ const getHandler = async (request: NextRequest) => {
 
   const search = Object.fromEntries(searchParams.entries());
 
-  let { page = "1", limit, ...filter } = search as Record<string, any>;
+  let { page = "1", limit = "6", ...filter } = search as Record<string, any>;
 
   limit = parseInt(limit);
   page = parseInt(page);

@@ -1,23 +1,17 @@
 "use client";
 
-import React, { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "@/store/store";
 import { format } from "date-fns";
-import { getAllTags } from "@/store/thunk/get-list-tags";
-import { deleteTag } from "@/store/thunk/delete-tag";
 import { DataTable } from "@/components/ui/data-table";
 import { ColumnDef } from "@tanstack/react-table";
 import { Tag } from "@/types/tag.type";
+import { useDeleteTag, useTags } from "@/hooks/useTag";
 import Action from "@/components/ui/action";
 
 const TagsList = () => {
-  const dispatch = useAppDispatch();
-  const { tags } = useAppSelector((state) => state.TagListReducer);
+  const { data } = useTags();
 
-  useEffect(() => {
-    dispatch(getAllTags());
-  }, [dispatch]);
-
+  console.log(data);
+  const deleteTag = useDeleteTag();
   const columns: ColumnDef<Tag>[] = [
     {
       header: "Tên danh mục",
@@ -39,12 +33,18 @@ const TagsList = () => {
       header: "Action",
       cell: ({ row }) => {
         const id = row.original._id;
-        return <Action onDelete={() => deleteTag(id)} id={id} />;
+        return <Action onDelete={() => {}} id={id} />;
       },
     },
   ];
 
-  return <DataTable data={tags} columns={columns} />;
+  return (
+    <DataTable
+      filterColumnKey="name"
+      data={(data?.data as Tag[]) || []}
+      columns={columns}
+    />
+  );
 };
 
 export default TagsList;

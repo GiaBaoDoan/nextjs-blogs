@@ -14,6 +14,18 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
+        hostname: "flowbite.s3.amazonaws.com",
+        port: "",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "tailwindcss.com",
+        port: "",
+        pathname: "/plus-assets/img/component-images/**",
+      },
+      {
+        protocol: "https",
         hostname: "img.freepik.com",
         port: "",
         pathname:

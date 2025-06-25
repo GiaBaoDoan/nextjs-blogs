@@ -1,22 +1,16 @@
 "use client";
 
-import React, { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "@/store/store";
-import { getAllCategory } from "@/store/thunk/get-list-categories";
 import { format } from "date-fns";
-import { deleteCategory } from "@/store/thunk/delete-category";
 import { ColumnDef } from "@tanstack/react-table";
 import { Category } from "@/types/category.type";
 import { DataTable } from "@/components/ui/data-table";
+import { useCategories } from "@/hooks/useCategories";
 import Action from "@/components/ui/action";
 
 const CategoriesList = () => {
-  const dispatch = useAppDispatch();
-  const { categories } = useAppSelector((state) => state.CategoryListReducer);
+  const { data } = useCategories();
 
-  useEffect(() => {
-    dispatch(getAllCategory());
-  }, [dispatch]);
+  console.log(data);
 
   const collums: ColumnDef<Category>[] = [
     {
@@ -39,12 +33,18 @@ const CategoriesList = () => {
       header: "Action",
       cell: ({ row }) => {
         const id = row.original._id;
-        return <Action onDelete={() => deleteCategory(id)} id={id} />;
+        return <Action onDelete={() => {}} id={id} />;
       },
     },
   ];
 
-  return <DataTable columns={collums} data={categories} />;
+  return (
+    <DataTable
+      filterColumnKey="name"
+      columns={collums}
+      data={(data?.data as Category[]) || []}
+    />
+  );
 };
 
 export default CategoriesList;

@@ -1,18 +1,26 @@
-import { AvatarFormType } from "@/components/account/AvatarForm";
-import { ProfileType } from "@/components/account/ProfileForm";
+import { AvatarFormType } from "@/schema/avatar.schema";
 import { Response } from "@/types";
 import { User } from "@/types/user.type";
-import { SecuritySchemaType } from "@/components/account/SecurityForm";
+import { SecuritySchemaType } from "@/schema/security.schema";
+import { ProfileType } from "@/schema/profile.schema";
 import configAxios from "@/lib/axios";
 
-const AccountServices = {
-  updateAvatar: (data: AvatarFormType) =>
-    configAxios.post<Response>("/account/avatar", data),
-  updateProfile: (data: ProfileType) =>
-    configAxios.put<Response>("/account/profile", data),
-  updatePassword: (data: SecuritySchemaType) =>
-    configAxios.put<Response>("/account/security", data),
-  getAccount: () => configAxios.get<Response<User>>("/account"),
+export const updateAvatar = async (data: AvatarFormType) => {
+  const res = await configAxios.post<Response>("/account/avatar", data);
+  return res.data;
 };
 
-export default AccountServices;
+export const updateProfile = async (data: ProfileType) => {
+  const res = await configAxios.put<Response>("/account/profile", data);
+  return res.data;
+};
+
+export const updatePassword = async (data: SecuritySchemaType) => {
+  const res = await configAxios.put<Response>("/account/security", data);
+  return res.data;
+};
+
+export const getAccount = async () => {
+  const res = await configAxios.get<Response<User>>("/account");
+  return res.data;
+};

@@ -5,12 +5,12 @@ import ClientNavbar from "@/components/layout/ClientNavbar";
 import Footer from "@/components/layout/Footer";
 import Logo from "@/components/ui/logo";
 import React from "react";
-import AppProvider from "@/components/provider/AppProvider";
 
 import { usePathname } from "next/navigation";
 import { SessionProvider } from "next-auth/react";
 import { Toaster } from "@/components/ui/sonner";
 import UserAuth from "@/components/auth/UserAuth";
+import ReactQueryProvider from "@/components/provider/QueryClientProvider";
 
 const AppLayout = ({
   children,
@@ -22,7 +22,7 @@ const AppLayout = ({
   const isAuthPath = pathname.startsWith("/auth");
 
   return (
-    <AppProvider>
+    <ReactQueryProvider>
       <SessionProvider>
         {!isAuthPath && (
           <div className="sticky top-0 z-10">
@@ -41,7 +41,7 @@ const AppLayout = ({
         <Toaster />
         {!isAuthPath ? !isAdminPath && <Footer /> : ""}
       </SessionProvider>
-    </AppProvider>
+    </ReactQueryProvider>
   );
 };
 

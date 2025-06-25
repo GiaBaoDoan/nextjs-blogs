@@ -7,3 +7,9 @@ export const CommentFormSchema = z.object({
 });
 
 export type CommentSchemaType = z.infer<typeof CommentFormSchema>;
+
+export const defaultValues = {
+  content: "",
+  email: "",
+  username: "",
+};

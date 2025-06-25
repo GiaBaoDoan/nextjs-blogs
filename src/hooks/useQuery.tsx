@@ -3,17 +3,17 @@
 import { useState } from "react";
 
 const useQuery = (initial: any) => {
-  const [query, setQuery] = useState(initial);
+  const [queries, setQuery] = useState(initial);
 
   const updateQuery = (newQuery: any) => {
-    setQuery({ ...query, ...newQuery });
+    setQuery({ ...queries, ...newQuery });
   };
 
   const resetQuery = () => {
     setQuery(initial);
   };
 
-  return { query, updateQuery, resetQuery };
+  return { queries, updateQuery, resetQuery };
 };
 
 export default useQuery;

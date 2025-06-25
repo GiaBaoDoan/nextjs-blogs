@@ -10,43 +10,28 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import useAsyncAction from "@/hooks/useAction";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CommentFormSchema, CommentSchemaType } from "@/schema/comment.schema";
-import { postComment } from "@/store/thunk/post-comment";
-import { useAppDispatch, useAppSelector } from "@/store/store";
+import {
+  CommentFormSchema,
+  CommentSchemaType,
+  defaultValues,
+} from "@/schema/comment.schema";
 import { Input } from "@/components/ui/input";
 import { Send } from "lucide-react";
-import { getCommentList } from "@/store/thunk/get-list-comments";
+import { useCreateComment } from "@/hooks/useComments";
 
-const CommentForm = () => {
+const CommentForm = ({ blogId }: { blogId: string }) => {
   const form = useForm<CommentSchemaType>({
     resolver: zodResolver(CommentFormSchema),
-    defaultValues: {
-      content: "",
-      email: "",
-      username: "",
-    },
+    defaultValues,
   });
 
-  const { blog } = useAppSelector((state) => state.BlogReducer);
-
-  const { execute } = useAsyncAction();
-
-  const dispatch = useAppDispatch();
+  const createComment = useCreateComment(blogId);
 
   const onSubmit = (data: CommentSchemaType) => {
-    execute({
-      actionCreator: () =>
-        postComment({
-          blogId: blog?._id as string,
-          data,
-        }),
-      callBack: () => {
-        dispatch(getCommentList({ blogId: blog?._id as string })), form.reset();
-      },
-    });
+    createComment.mutate(data);
+    form.reset(defaultValues);
   };
 
   return (

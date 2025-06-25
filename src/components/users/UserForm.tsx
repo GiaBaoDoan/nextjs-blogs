@@ -26,10 +26,9 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { useEffect } from "react";
-import useAsyncAction from "@/hooks/useAction";
-import { updateUser } from "@/store/thunk/update-user";
-import { useParams } from "next/navigation";
 import { UserRole, UserStatus } from "@/constants/enum";
+import { useUpdateUser } from "@/hooks/useUsers";
+import { useParams } from "next/navigation";
 
 export function UserForm({ user }: { user: UserSchemaType }) {
   const form = useForm<UserSchemaType>({
@@ -38,14 +37,9 @@ export function UserForm({ user }: { user: UserSchemaType }) {
   });
 
   const { id } = useParams();
+  const updateUser = useUpdateUser(id as string);
 
-  const { execute, isLoading } = useAsyncAction();
-
-  const onSubmit = (data: UserSchemaType) => {
-    execute({
-      actionCreator: () => updateUser({ id: `${id}`, data }),
-    });
-  };
+  const onSubmit = (data: UserSchemaType) => updateUser.mutate(data);
 
   useEffect(() => {
     if (user) {
@@ -65,7 +59,6 @@ export function UserForm({ user }: { user: UserSchemaType }) {
             <FormField
               control={form.control}
               name="email"
-              disabled={isLoading}
               render={({ field }) => (
                 <FormItem className="flex">
                   <FormLabel className="w-40">Email</FormLabel>
@@ -76,7 +69,6 @@ export function UserForm({ user }: { user: UserSchemaType }) {
             <FormField
               control={form.control}
               name="username"
-              disabled={isLoading}
               render={({ field }) => (
                 <FormItem className="flex">
                   <FormLabel className="w-40">Họ tên</FormLabel>
@@ -91,7 +83,6 @@ export function UserForm({ user }: { user: UserSchemaType }) {
             <FormField
               control={form.control}
               name="address"
-              disabled={isLoading}
               render={({ field }) => (
                 <FormItem className="flex">
                   <FormLabel className="w-40">Địa chỉ</FormLabel>
@@ -105,7 +96,6 @@ export function UserForm({ user }: { user: UserSchemaType }) {
             <FormField
               control={form.control}
               name="password"
-              disabled={isLoading}
               render={({ field }) => (
                 <FormItem className="flex">
                   <FormLabel className="w-40">Mật khẩu</FormLabel>
@@ -119,7 +109,6 @@ export function UserForm({ user }: { user: UserSchemaType }) {
             <FormField
               control={form.control}
               name="bio"
-              disabled={isLoading}
               render={({ field }) => (
                 <FormItem className="flex">
                   <FormLabel className="w-40">Mô tả</FormLabel>
@@ -135,15 +124,10 @@ export function UserForm({ user }: { user: UserSchemaType }) {
             <FormField
               control={form.control}
               name="role"
-              disabled={isLoading}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Quyền</FormLabel>
-                  <Select
-                    {...field}
-                    onValueChange={field.onChange}
-                    disabled={isLoading}
-                  >
+                  <Select {...field} onValueChange={field.onChange}>
                     <FormControl>
                       <SelectTrigger className="w-full">
                         <SelectValue placeholder="Quyền" />
@@ -162,18 +146,13 @@ export function UserForm({ user }: { user: UserSchemaType }) {
             <FormField
               control={form.control}
               name="status"
-              disabled={isLoading}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Status</FormLabel>
-                  <Select
-                    {...field}
-                    onValueChange={field.onChange}
-                    disabled={isLoading}
-                  >
+                  <Select {...field} onValueChange={field.onChange}>
                     <FormControl>
                       <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Select a verified email to display" />
+                        <SelectValue />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
@@ -193,7 +172,7 @@ export function UserForm({ user }: { user: UserSchemaType }) {
                 </FormItem>
               )}
             />
-            <Button disabled={isLoading} className="w-full" type="submit">
+            <Button className="w-full" type="submit">
               Cập nhật
             </Button>
           </div>

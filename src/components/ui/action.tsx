@@ -1,13 +1,5 @@
 import { Button } from "@/components/ui/button";
-import {
-  Delete,
-  Ellipsis,
-  Eye,
-  MoreHorizontal,
-  ScanEye,
-  SquarePen,
-  Trash,
-} from "lucide-react";
+import { Eye, MoreHorizontal, SquarePen } from "lucide-react";
 import { useRouter, usePathname } from "next/navigation";
 
 import {
@@ -18,7 +10,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import useAsyncAction from "@/hooks/useAction";
 
 const Action = ({
   id,
@@ -30,13 +21,7 @@ const Action = ({
   const router = useRouter();
   const pathName = usePathname();
 
-  const { execute, isLoading } = useAsyncAction();
-
-  const handleDelete = (id: string) => {
-    execute({
-      actionCreator: () => onDelete(id),
-    });
-  };
+  const handleDelete = (id: string) => {};
 
   return (
     <div>

@@ -2,23 +2,17 @@
 
 import Back from "@/components/ui/back";
 import { BlogForm } from "@/components/blogs/BlogForm";
-import { postBlog } from "@/store/thunk/post-blog";
 import { BlogSchemaType } from "@/schema/blog.schema";
-import useAsyncAction from "@/hooks/useAction";
+import { useCreatePost } from "@/hooks/useBlogs";
 
 const BlogAddPage = () => {
-  const { execute, isLoading } = useAsyncAction();
-
-  const onSubmit = (data: BlogSchemaType) => {
-    execute({
-      actionCreator: () => postBlog(data),
-    });
-  };
+  const createBlog = useCreatePost();
+  const onSubmit = (data: BlogSchemaType) => createBlog.mutate(data);
 
   return (
     <div className="container">
       <Back text="Thêm bài viết" />
-      <BlogForm onSubmit={onSubmit} isSubmiting={isLoading} />
+      <BlogForm onSubmit={onSubmit} isSubmiting={false} />
     </div>
   );
 };

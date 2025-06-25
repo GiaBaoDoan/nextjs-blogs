@@ -1,30 +1,61 @@
+import connect from "@/lib/database";
 import { withErrorHandler } from "@/lib/errorHandler";
 import { CommentModel } from "@/models/Comment";
 import { NextRequest, NextResponse } from "next/server";
 
-async function postHandler(
-  request: NextRequest,
-  { params }: { params: Promise<{ blogId: string }> }
+async function getHandler(
+  _: NextRequest,
+  {
+    params,
+  }: {
+    params: Promise<{
+      blogId: string;
+    }>;
+  }
 ) {
+  await connect();
   const { blogId } = await params;
 
-  const body = await request.json();
+  const comments = await CommentModel.find({ blogId });
 
-  const { content, email, username } = body;
+  return NextResponse.json(
+    {
+      data: comments,
+    },
+    {
+      status: 200,
+    }
+  );
+}
 
-  await CommentModel.create({
-    content,
+async function postHandler(
+  request: NextRequest,
+  {
+    params,
+  }: {
+    params: Promise<{
+      blogId: string;
+    }>;
+  }
+) {
+  await connect();
+  const { blogId } = await params;
+  const data = await request.json();
+
+  const comments = await CommentModel.create({
+    ...data,
     blogId,
-    email,
-    username,
   });
 
   return NextResponse.json(
     {
-      message: "Thêm bình luận thành công",
+      data: comments,
     },
-    { status: 200 }
+    {
+      status: 200,
+    }
   );
 }
 
+export const GET = withErrorHandler(getHandler);
 export const POST = withErrorHandler(postHandler);

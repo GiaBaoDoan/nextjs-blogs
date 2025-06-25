@@ -15,13 +15,13 @@ export const BlogFormSchema = z.object({
 
 export const BlogDefaultValues: BlogSchemaType = {
   title: "",
+  category: "",
   slug: "",
   description: "",
   seoDescription: "",
   seoKeyWord: "",
   content: "",
   thumbnail: "",
-  category: "",
   tags: [],
   status: "draft",
 };

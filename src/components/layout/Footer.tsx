@@ -23,13 +23,10 @@ const Footer = () => {
               className="rounded-md"
             />
           </Link>
-          <p className="text-sm">© 2025 Blog Dev.</p>
           <p className="text-sm">
-            Chia sẻ kiến thức lập trình & dự án thực tế mỗi tuần.
-          </p>
-
-          <p className="text-sm mt-2">
-            Viết bằng ❤️ và caffeine. Cảm ơn bạn đã ghé thăm!
+            <span className="font-bold underline">© 2025 Blog Dev.</span> Chia
+            sẻ kiến thức lập trình & dự án thực tế mỗi tuần. Viết bằng ❤️ và
+            caffeine. Cảm ơn bạn đã ghé thăm!
           </p>
         </div>
 

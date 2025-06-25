@@ -3,15 +3,11 @@
 import Avatar from "@/components/account/AvatarForm";
 import Profile from "@/components/account/ProfileForm";
 import Security from "@/components/account/SecurityForm";
-import { useAppDispatch } from "@/store/store";
-import { getAccount } from "@/store/thunk/get-account";
-import { useEffect } from "react";
+import { useFetchAccount } from "@/hooks/useAccount";
+import { User } from "@/types/user.type";
 
 const Account = () => {
-  const dispatch = useAppDispatch();
-  useEffect(() => {
-    dispatch(getAccount());
-  }, [dispatch]);
+  const { data } = useFetchAccount();
 
   return (
     <div className="container py-10">
@@ -26,8 +22,8 @@ const Account = () => {
           </ul>
         </div>
         <div className="flex flex-col flex-1">
-          <Avatar />
-          <Profile />
+          <Avatar account={data?.data as User} />
+          <Profile account={data?.data as User} />
           <Security />
         </div>
       </div>

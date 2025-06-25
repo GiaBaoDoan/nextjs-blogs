@@ -11,21 +11,10 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { updatePassword } from "@/store/thunk/update-password";
-import useAsyncAction from "@/hooks/useAction";
-
-export const SecurityFormSchema = z
-  .object({
-    currentPassword: z.string().min(6),
-    newPassword: z.string().min(6, "Mật khẩu mới phải có ít nhất 6 ký tự"),
-    repeatPassword: z.string().min(6),
-  })
-  .refine((data) => data.newPassword === data.repeatPassword, {
-    path: ["repeatPassword"],
-    message: "Mật khẩu nhập lại không khớp",
-  });
-
-export type SecuritySchemaType = z.infer<typeof SecurityFormSchema>;
+import {
+  SecurityFormSchema,
+  SecuritySchemaType,
+} from "@/schema/security.schema";
 
 const Security = () => {
   const form = useForm<SecuritySchemaType>({
@@ -37,13 +26,7 @@ const Security = () => {
     },
   });
 
-  const { execute, isLoading } = useAsyncAction();
-
-  const onSubmit = (data: SecuritySchemaType) => {
-    execute({
-      actionCreator: () => updatePassword(data),
-    });
-  };
+  const onSubmit = (data: SecuritySchemaType) => {};
   return (
     <section className="rounded-xl border bg-card text-card-foreground shadow mb-8 scroll-mt-20 flex-1">
       <div className="p-5 space-y-5">
@@ -52,7 +35,6 @@ const Security = () => {
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <FormField
-              disabled={isLoading}
               control={form.control}
               name="currentPassword"
               render={({ field }) => (
@@ -70,7 +52,6 @@ const Security = () => {
             <FormField
               control={form.control}
               name="newPassword"
-              disabled={isLoading}
               render={({ field }) => (
                 <FormItem className="flex">
                   <FormLabel className="w-40">Mật khẩu mới</FormLabel>
@@ -86,7 +67,6 @@ const Security = () => {
             <FormField
               control={form.control}
               name="repeatPassword"
-              disabled={isLoading}
               render={({ field }) => (
                 <FormItem className="flex">
                   <FormLabel className="w-40">Nhập mật khẩu mới</FormLabel>
@@ -100,7 +80,7 @@ const Security = () => {
               )}
             />
 
-            <Button disabled={isLoading} variant="secondary" type="submit">
+            <Button variant="secondary" type="submit">
               Lưu lại
             </Button>
           </form>

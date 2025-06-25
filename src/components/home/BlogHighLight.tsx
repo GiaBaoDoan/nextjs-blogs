@@ -2,21 +2,14 @@
 
 import BlogList from "@/components/blogs/BlogList";
 import useQuery from "@/hooks/useQuery";
-import ButtonSecondary from "@/components/ui/button-secondary";
-import { useAppDispatch } from "@/store/store";
-import { getListBlogs } from "@/store/thunk/get-list-blogs";
-import { useEffect } from "react";
-import { Sparkles } from "lucide-react";
 import ButtonPrimary from "@/components/ui/button-primary";
 
+import { Blog } from "@/types/blog.type";
+import { usePosts } from "@/hooks/useBlogs";
+
 const BlogHighLight = () => {
-  const { query } = useQuery({ limit: 6 });
-
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    dispatch(getListBlogs(query));
-  }, [dispatch, query]);
+  const { queries } = useQuery({ limit: 6 });
+  const { data: blogs } = usePosts(queries);
 
   return (
     <section className="flex items-center flex-col py-10">
@@ -27,7 +20,7 @@ const BlogHighLight = () => {
           và những chia sẻ thực tế từ hành trình phát triển phần mềm.
         </p>
       </article>
-      <BlogList />
+      <BlogList blogs={blogs?.data as Blog[]} />
       <ButtonPrimary className="mt-10 bg-indigo-700" link="/blogs">
         Đọc bài viết{" "}
         <svg

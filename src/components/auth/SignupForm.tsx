@@ -26,12 +26,11 @@ import {
 import { Input } from "@/components/ui/input";
 
 import { SignupType, SignupFormSchema } from "@/schema/signup.schema";
-import { SignupThunk } from "@/store/thunk/signup";
-import { useAppDispatch } from "@/store/store";
 import { useState } from "react";
 import { HttpError } from "@/types";
 import { AxiosError } from "axios";
 import AlertBox from "@/components/ui/alert-box";
+import { useSignup } from "@/hooks/useAuth";
 
 export function SignupForm() {
   const form = useForm<SignupType>({
@@ -43,25 +42,26 @@ export function SignupForm() {
     },
   });
 
-  const dispatch = useAppDispatch();
-
   const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
+  const signupMutation = useSignup();
 
   async function onSubmit(data: SignupType) {
-    setIsLoading(true);
-    try {
-      const res = await dispatch(SignupThunk(data)).unwrap();
-      setMessage(res.message);
-      setIsError(false);
-      setIsLoading(false);
-    } catch (err) {
-      const newErr = err as AxiosError<HttpError>;
-      setIsLoading(false);
-      setIsError(true);
-      setMessage(newErr.response?.data.message as string);
-    }
+    setMessage("");
+    setIsError(false);
+
+    signupMutation.mutate(data, {
+      onSuccess: (res) => {
+        setMessage(res.message);
+        setIsError(false);
+      },
+      onError: (err) => {
+        const error = err as AxiosError<HttpError>;
+        setMessage(error.response?.data.message || "Đăng ký thất bại.");
+        setIsError(true);
+      },
+    });
   }
 
   return (

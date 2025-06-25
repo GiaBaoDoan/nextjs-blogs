@@ -1,13 +1,10 @@
 "use client";
 
 import { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "@/store/store";
 import { format } from "date-fns";
 import { DataTable } from "@/components/ui/data-table";
 import { ColumnDef } from "@tanstack/react-table";
-import { getCommentList } from "@/store/thunk/get-list-comments";
 import { Comment } from "@/types/comment.type";
-import { deleteComment } from "@/store/thunk/delete-comment";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -19,16 +16,12 @@ import {
 import { Button } from "@/components/ui/button";
 import { MoreHorizontal } from "lucide-react";
 import { useParams } from "next/navigation";
+import { useFetchCommentList } from "@/hooks/useComments";
 
 const CommentListTable = () => {
-  const dispatch = useAppDispatch();
-  const { comments } = useAppSelector((state) => state.CommentListReducer);
-
   const { blogId } = useParams();
 
-  useEffect(() => {
-    dispatch(getCommentList({ blogId }));
-  }, [dispatch, blogId]);
+  const { data } = useFetchCommentList(blogId as string);
 
   const columns: ColumnDef<Comment>[] = [
     {
@@ -78,17 +71,7 @@ const CommentListTable = () => {
                 Copy ID
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem
-                onClick={() =>
-                  dispatch(
-                    deleteComment({
-                      blogId: blogId as string,
-                      id: row.original._id,
-                    })
-                  )
-                }
-                className="text-destructive"
-              >
+              <DropdownMenuItem className="text-destructive">
                 <span>Delete</span>
                 ⌘⌫
               </DropdownMenuItem>
@@ -99,7 +82,7 @@ const CommentListTable = () => {
     },
   ];
 
-  return <DataTable data={comments} columns={columns} />;
+  return <DataTable data={data?.data as Comment[]} columns={columns} />;
 };
 
 export default CommentListTable;

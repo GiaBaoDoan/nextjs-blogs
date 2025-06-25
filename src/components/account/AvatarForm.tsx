@@ -9,38 +9,27 @@ import {
   FormItem,
 } from "@/components/ui/form";
 import ImageUpload from "@/components/ui/image-upload";
-import useAsyncAction from "@/hooks/useAction";
-import { useAppSelector } from "@/store/store";
-import { updateAvatar } from "@/store/thunk/update-avatar";
+import { useUpdateAvatar } from "@/hooks/useAccount";
+import {
+  AvatarForm,
+  AvatarFormType,
+  defaultValues,
+} from "@/schema/avatar.schema";
+import { User } from "@/types/user.type";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 
-const AvatarForm = z.object({
-  image: z.string().min(1),
-});
-
-export type AvatarFormType = z.infer<typeof AvatarForm>;
-
-const Avatar = () => {
+const Avatar = ({ account }: { account: User }) => {
   const form = useForm<AvatarFormType>({
     resolver: zodResolver(AvatarForm),
-    defaultValues: {
-      image: "",
-    },
+    defaultValues,
   });
 
-  const { execute } = useAsyncAction();
-
-  const { account, isLoading } = useAppSelector(
-    (state) => state.AccountReducer
-  );
+  const updateAvatar = useUpdateAvatar();
 
   const onSubmit = (data: AvatarFormType) => {
-    execute({
-      actionCreator: () => updateAvatar(data),
-    });
+    updateAvatar.mutate(data);
   };
 
   useEffect(() => {
@@ -74,7 +63,7 @@ const Avatar = () => {
                 )}
               />
 
-              <Button disabled={isLoading} className="mt-5" variant="secondary">
+              <Button className="mt-5" variant="secondary">
                 Cập nhật
               </Button>
             </form>

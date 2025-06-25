@@ -1,29 +1,18 @@
 "use client";
 
-import { useEffect } from "react";
-import { format } from "date-fns";
-import { Badge } from "@/components/ui/badge";
-import { getListBlogs } from "@/store/thunk/get-list-blogs";
-import { useAppDispatch, useAppSelector } from "@/store/store";
-import { deleteBlog } from "@/store/thunk/delete-blog";
-import { DataTable } from "@/components/ui/data-table";
-import { ColumnDef } from "@tanstack/react-table";
 import Image from "next/image";
 import Action from "@/components/ui/action";
+import useQuery from "@/hooks/useQuery";
+import { format } from "date-fns";
+import { Badge } from "@/components/ui/badge";
+import { DataTable } from "@/components/ui/data-table";
+import { ColumnDef } from "@tanstack/react-table";
 import { Blog } from "@/types/blog.type";
-import { Button } from "@/components/ui/button";
-import { Eye, MessageSquare } from "lucide-react";
-import Link from "next/link";
+import { usePosts } from "@/hooks/useBlogs";
 
 export default function BlogListTable() {
-  const { blogs } = useAppSelector((state) => state.BlogListReducer);
-
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    dispatch(getListBlogs(""));
-  }, [dispatch]);
-
+  const { queries } = useQuery({ limit: 100, page: 1 });
+  const { data } = usePosts(queries);
   const columns: ColumnDef<Blog>[] = [
     {
       header: "Trạng thái",
@@ -108,14 +97,18 @@ export default function BlogListTable() {
       header: "Actions",
       cell: ({ row }) => {
         const id = row.original._id;
-        return <Action onDelete={() => deleteBlog(id)} id={id} />;
+        return <Action onDelete={() => {}} id={id} />;
       },
     },
   ];
 
   return (
     <div>
-      <DataTable columns={columns} data={blogs} />
+      <DataTable
+        filterColumnKey="title"
+        columns={columns}
+        data={(data?.data as Blog[]) || []}
+      />
     </div>
   );
 }

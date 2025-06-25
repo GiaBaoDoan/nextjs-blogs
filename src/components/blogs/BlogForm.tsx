@@ -8,10 +8,6 @@ import slugify from "slugify";
 import QuillEditor from "@/components/ui/editor";
 import ImageUpload from "@/components/ui/image-upload";
 
-import { useAppDispatch, useAppSelector } from "@/store/store";
-import { getAllTags } from "@/store/thunk/get-list-tags";
-import { getAllCategory } from "@/store/thunk/get-list-categories";
-
 import {
   BlogDefaultValues,
   BlogFormSchema,
@@ -38,6 +34,9 @@ import {
   SelectItem,
 } from "@/components/ui/select";
 import { MultiSelectCombobox } from "@/components/ui/combobox";
+import { useTags } from "@/hooks/useTag";
+import { useCategories } from "@/hooks/useCategories";
+import { Tag } from "@/types/tag.type";
 
 type BlogFormProps = {
   onSubmit: (data: BlogSchemaType) => void;
@@ -47,22 +46,12 @@ type BlogFormProps = {
 
 export function BlogForm({ onSubmit, isSubmiting, blog }: BlogFormProps) {
   const form = useForm<BlogSchemaType>({
-    defaultValues: BlogDefaultValues,
     resolver: zodResolver(BlogFormSchema),
+    defaultValues: blog || BlogDefaultValues,
   });
 
-  const dispatch = useAppDispatch();
-  const { tags } = useAppSelector((state) => state.TagListReducer);
-  const { categories } = useAppSelector((state) => state.CategoryListReducer);
-
-  useEffect(() => {
-    if (!tags.length) dispatch(getAllTags());
-    if (!categories.length) dispatch(getAllCategory());
-  }, [dispatch, categories, tags]);
-
-  useEffect(() => {
-    if (blog) form.reset(blog);
-  }, [blog, form]);
+  const { data: tags } = useTags();
+  const { data: categories } = useCategories();
 
   const generateSlug = () => {
     const title = form.getValues("title");
@@ -71,6 +60,10 @@ export function BlogForm({ onSubmit, isSubmiting, blog }: BlogFormProps) {
       slugify(title, { lower: true, locale: "vi", strict: true })
     );
   };
+
+  useEffect(() => {
+    form.reset(blog);
+  }, [blog, form]);
 
   return (
     <Form {...form}>
@@ -254,7 +247,7 @@ export function BlogForm({ onSubmit, isSubmiting, blog }: BlogFormProps) {
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        {categories.map((cat) => (
+                        {categories?.data?.map((cat) => (
                           <SelectItem key={cat.name} value={cat._id}>
                             {cat.name}
                           </SelectItem>
@@ -277,7 +270,7 @@ export function BlogForm({ onSubmit, isSubmiting, blog }: BlogFormProps) {
                     <MultiSelectCombobox
                       selected={field.value as string[]}
                       onChange={field.onChange}
-                      options={tags}
+                      options={tags?.data as Tag[]}
                     />
                   </FormControl>
                 </FormItem>

@@ -1,49 +1,38 @@
 "use client";
 
 import { BlogForm } from "@/components/blogs/BlogForm";
-import Back from "@/components/ui/back";
-import useAsyncAction from "@/hooks/useAction";
+import { usePost, useUpdatePost } from "@/hooks/useBlogs";
 import { BlogSchemaType } from "@/schema/blog.schema";
-import { useAppDispatch, useAppSelector } from "@/store/store";
-import { getBlogById } from "@/store/thunk/get-detail-blog";
-import { updateBlog } from "@/store/thunk/update-blog";
 import { useParams } from "next/navigation";
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
+import Back from "@/components/ui/back";
 
 const BlogEditPage = () => {
-  const { execute, isLoading } = useAsyncAction();
-  const dispatch = useAppDispatch();
-
   const { id } = useParams();
 
-  const onSubmit = (data: BlogSchemaType) => {
-    execute({
-      actionCreator: () => updateBlog({ id: id as string, data }),
-    });
-  };
+  const updateBlog = useUpdatePost(id as string);
 
-  const { blog } = useAppSelector((state) => state.BlogReducer);
+  const onSubmit = (data: BlogSchemaType) => updateBlog.mutate(data);
 
-  const data = useMemo(
-    () => ({
-      ...blog,
-      category: blog?.category._id,
-      tags: blog?.tags.map((tag) => tag._id),
-    }),
-    [blog]
-  );
+  const { data: blog } = usePost(id as string);
 
-  useEffect(() => {
-    dispatch(getBlogById(id as string));
-  }, [dispatch, id]);
+  const newBlog = useMemo(() => {
+    if (!blog?.data) return null;
+
+    return {
+      ...blog.data,
+      category: blog?.data?.category._id,
+      tags: blog?.data?.tags.map((tag) => tag._id),
+    };
+  }, [blog?.data]);
 
   return (
     <div className="container">
       <Back text="Edit bài viết" />
       <BlogForm
-        blog={data as BlogSchemaType}
+        isSubmiting={false}
+        blog={newBlog as BlogSchemaType}
         onSubmit={onSubmit}
-        isSubmiting={isLoading}
       />
     </div>
   );

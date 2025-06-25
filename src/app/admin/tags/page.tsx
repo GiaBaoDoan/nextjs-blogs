@@ -1,8 +1,8 @@
 import TagsList from "@/components/tags/TagsList";
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
-const page = () => {
+const TagListPage = () => {
   return (
     <div className="container py-7 space-y-5">
       <div className="flex justify-between items-center">
@@ -16,4 +16,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default TagListPage;

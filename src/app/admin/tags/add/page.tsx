@@ -2,23 +2,14 @@
 
 import TagForm from "@/components/tags/TagForm";
 import Back from "@/components/ui/back";
-import useAsyncAction from "@/hooks/useAction";
-import { TagSchemaType } from "@/schema/tag.schema";
-import { postTag } from "@/store/thunk/post-tag";
+import { useCreateTag } from "@/hooks/useTag";
 
 const TagAddPage = () => {
-  const { execute, isLoading } = useAsyncAction();
-
-  const onSubmit = (data: TagSchemaType) => {
-    execute({
-      actionCreator: () => postTag(data),
-    });
-  };
-
+  const createTag = useCreateTag();
   return (
     <div className="container">
       <Back text="Thêm danh mục" />
-      <TagForm onSubmit={onSubmit} isSubmiting={isLoading} />
+      <TagForm onSubmit={createTag.mutate} isSubmiting={false} />
     </div>
   );
 };

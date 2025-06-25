@@ -92,8 +92,8 @@ export default function About() {
           <Image
             src="https://tailwindcss.com/plus-assets/img/component-images/dark-project-app-screenshot.png"
             alt="Coding setup"
-            className="max-w-none rounded-xl shadow-xl ring-1 ring-gray-400/10 sm:w-[40rem] md:-ml-4 lg:-ml-0"
-            width={1200}
+            className="rounded-xl shadow-xl ring-1 ring-gray-400/10 sm:w-[40rem] md:-ml-4 lg:-ml-0"
+            width={800}
             height={800}
           />
         </div>

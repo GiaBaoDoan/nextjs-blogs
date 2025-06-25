@@ -1,5 +1,6 @@
+"use client";
+
 import Image from "next/image";
-import { Badge } from "@/components/ui/badge";
 import { Blog } from "@/types/blog.type";
 import { MessageSquare } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -8,7 +9,7 @@ import { format } from "date-fns";
 const BlogCard = ({ blog }: { blog: Blog }) => {
   const router = useRouter();
   return (
-    <article
+    <div
       className="cursor-pointer"
       onClick={() => router.push(`/blogs/${blog.slug}`)}
     >
@@ -23,7 +24,7 @@ const BlogCard = ({ blog }: { blog: Blog }) => {
         {blog.category.name}
       </span>
       <div className="space-y-2 mb-5">
-        <h4 className="font-semibold hover:text-blue-500 transition-all">
+        <h4 className="font-semibold hover:text-blue-600 transition-all">
           {blog.title}
         </h4>
         <p className="text-sm text-muted-foreground line-clamp-2">
@@ -39,7 +40,7 @@ const BlogCard = ({ blog }: { blog: Blog }) => {
           <MessageSquare size={15} /> <span>0</span>
         </div>
       </div>
-    </article>
+    </div>
   );
 };
 
