@@ -21,7 +21,7 @@ export function usePost(id: string) {
 export function useCreatePost() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: postApi.createPost,
+    mutationFn: (data: BlogSchemaType) => postApi.createPost(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["posts"] });
     },

@@ -1,28 +1,23 @@
 "use client";
 
 import Back from "@/components/ui/back";
+import SuccessToast from "@/components/custom/SuccessToast";
 import { BlogForm } from "@/components/blogs/BlogForm";
 import { usePost, useUpdatePost } from "@/hooks/useBlogs";
 import { BlogSchemaType } from "@/schema/blog.schema";
 import { useParams } from "next/navigation";
 import { useMemo } from "react";
-import { toast } from "sonner";
-import { CircleCheck } from "lucide-react";
 
 const BlogEditPage = () => {
   const { id } = useParams();
 
-  const updateBlog = useUpdatePost(id as string);
+  const { mutate } = useUpdatePost(id as string);
 
-  const onSubmit = (data: BlogSchemaType) =>
-    updateBlog.mutate(data, {
-      onSuccess: (res) => {
-        toast("Thành công", {
-          icon: <CircleCheck fill="black" size="20" color="white" />,
-          description: res.message,
-        });
-      },
+  const onSubmit = (data: BlogSchemaType) => {
+    mutate(data, {
+      onSuccess: (res) => SuccessToast(res.message),
     });
+  };
 
   const { data: blog } = usePost(id as string);
 

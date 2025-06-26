@@ -1,16 +1,22 @@
 "use client";
 
+import Action from "@/components/ui/action";
+import SuccessToast from "@/components/custom/SuccessToast";
 import { format } from "date-fns";
 import { ColumnDef } from "@tanstack/react-table";
 import { Category } from "@/types/category.type";
 import { DataTable } from "@/components/ui/data-table";
-import { useCategories } from "@/hooks/useCategories";
-import Action from "@/components/ui/action";
+import { useCategories, useDeleteCategory } from "@/hooks/useCategories";
 
 const CategoriesList = () => {
   const { data } = useCategories();
+  const { mutate } = useDeleteCategory();
 
-  console.log(data);
+  const onDelete = (id: string) => {
+    mutate(id, {
+      onSuccess: (res) => SuccessToast(res.message),
+    });
+  };
 
   const collums: ColumnDef<Category>[] = [
     {
@@ -33,7 +39,7 @@ const CategoriesList = () => {
       header: "Action",
       cell: ({ row }) => {
         const id = row.original._id;
-        return <Action onDelete={() => {}} id={id} />;
+        return <Action onDelete={onDelete} id={id} />;
       },
     },
   ];

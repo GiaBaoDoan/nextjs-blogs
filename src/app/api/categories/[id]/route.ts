@@ -1,15 +1,17 @@
 import CustomError from "@/lib/cutomError";
 import connect from "@/lib/database";
-import { withErrorHandler } from "@/lib/errorHandler";
 import CategoryModel from "@/models/Category";
-import { tParams } from "@/types";
+import { withErrorHandler } from "@/lib/errorHandler";
 import { NextRequest, NextResponse } from "next/server";
 
 connect();
 
-const getHandler = async (_: NextRequest, { params }: { params: tParams }) => {
-  const { param } = await params;
-  const category = await CategoryModel.findById(param);
+const getHandler = async (
+  _: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) => {
+  const { id } = await params;
+  const category = await CategoryModel.findById(id);
 
   if (!category) {
     throw new CustomError("Không tìm thấy danh mục !!", 404);
@@ -26,11 +28,11 @@ const getHandler = async (_: NextRequest, { params }: { params: tParams }) => {
 
 const putHandler = async (
   request: NextRequest,
-  { params }: { params: tParams }
+  { params }: { params: Promise<{ id: string }> }
 ) => {
-  const { param } = await params;
+  const { id } = await params;
   const body = await request.json();
-  const category = await CategoryModel.findByIdAndUpdate(param, body, {
+  const category = await CategoryModel.findByIdAndUpdate(id, body, {
     new: true,
   });
   return NextResponse.json(
@@ -44,13 +46,11 @@ const putHandler = async (
 
 const deleteHandler = async (
   _: NextRequest,
-  { params }: { params: tParams }
+  { params }: { params: Promise<{ id: string }> }
 ) => {
-  const { param } = await params;
+  const { id } = await params;
 
-  const category = await CategoryModel.findByIdAndDelete(param);
-
-  console.log(category);
+  const category = await CategoryModel.findByIdAndDelete(id);
 
   if (!category) {
     throw new CustomError("Không tìm thấy danh mục !!", 404);

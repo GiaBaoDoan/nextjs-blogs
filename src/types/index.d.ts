@@ -15,4 +15,4 @@ export interface HttpError {
   message: string;
 }
 
-export type tParams = Promise<{ param: string }>; // => basic;
+export type tParams = Promise<{ param: string }>;

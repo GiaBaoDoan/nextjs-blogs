@@ -43,10 +43,10 @@ export const useUpdateCategory = (id: string) => {
 };
 
 // Xoá category
-export const useDeleteCategory = (id: string) => {
+export const useDeleteCategory = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: () => CategoryApi.deleteCategory(id),
+    mutationFn: (id: string) => CategoryApi.deleteCategory(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["categories"] });
     },

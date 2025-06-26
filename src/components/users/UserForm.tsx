@@ -29,8 +29,8 @@ import { useEffect } from "react";
 import { UserRole, UserStatus } from "@/constants/enum";
 import { useUpdateUser } from "@/hooks/useUsers";
 import { useParams } from "next/navigation";
-import { CircleCheck } from "lucide-react";
-import { toast } from "sonner";
+
+import SuccessToast from "@/components/custom/SuccessToast";
 
 export function UserForm({ user }: { user: UserSchemaType }) {
   const form = useForm<UserSchemaType>({
@@ -43,12 +43,7 @@ export function UserForm({ user }: { user: UserSchemaType }) {
 
   const onSubmit = (data: UserSchemaType) =>
     mutate(data, {
-      onSuccess: (res) => {
-        toast("Thành công", {
-          icon: <CircleCheck fill="black" size="20" color="white" />,
-          description: res.message,
-        });
-      },
+      onSuccess: (res) => SuccessToast(res.message),
     });
 
   useEffect(() => {

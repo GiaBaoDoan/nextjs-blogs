@@ -2,17 +2,27 @@
 
 import Image from "next/image";
 import Action from "@/components/ui/action";
+import SuccessToast from "@/components/custom/SuccessToast";
 import useQuery from "@/hooks/useQuery";
 import { format } from "date-fns";
 import { Badge } from "@/components/ui/badge";
 import { DataTable } from "@/components/ui/data-table";
 import { ColumnDef } from "@tanstack/react-table";
 import { Blog } from "@/types/blog.type";
-import { usePosts } from "@/hooks/useBlogs";
+import { useDeletePost, usePosts } from "@/hooks/useBlogs";
 
 export default function BlogListTable() {
   const { queries } = useQuery({ limit: 100, page: 1 });
   const { data } = usePosts(queries);
+
+  const { mutate } = useDeletePost();
+
+  const onDelete = (id: string) => {
+    mutate(id, {
+      onSuccess: (res) => SuccessToast(res.message),
+    });
+  };
+
   const columns: ColumnDef<Blog>[] = [
     {
       header: "Trạng thái",
@@ -85,18 +95,16 @@ export default function BlogListTable() {
       header: "Actions",
       cell: ({ row }) => {
         const id = row.original._id;
-        return <Action onDelete={() => {}} id={id} />;
+        return <Action onDelete={onDelete} id={id} />;
       },
     },
   ];
 
   return (
-    <div>
-      <DataTable
-        filterColumnKey="title"
-        columns={columns}
-        data={(data?.data as Blog[]) || []}
-      />
-    </div>
+    <DataTable
+      filterColumnKey="title"
+      columns={columns}
+      data={(data?.data as Blog[]) || []}
+    />
   );
 }

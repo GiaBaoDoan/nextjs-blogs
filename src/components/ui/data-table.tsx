@@ -75,7 +75,7 @@ export function DataTable<TData>({
       {/* Filter data table */}
       <div className="flex items-center py-4">
         <Input
-          placeholder={`Filter by ${filterColumnKey}`}
+          placeholder={`Lọc theo ${filterColumnKey}`}
           value={
             (table.getColumn(filterColumnKey)?.getFilterValue() as string) ?? ""
           }
@@ -87,7 +87,7 @@ export function DataTable<TData>({
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">
-              View <ChevronDown />
+              Cột <ChevronDown />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">

@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Eye, MoreHorizontal, SquarePen } from "lucide-react";
+import { CircleCheck, MoreHorizontal, SquarePen } from "lucide-react";
 import { useRouter, usePathname } from "next/navigation";
 
 import {
@@ -10,6 +10,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { toast } from "sonner";
 
 const Action = ({
   id,
@@ -20,8 +21,6 @@ const Action = ({
 }) => {
   const router = useRouter();
   const pathName = usePathname();
-
-  const handleDelete = (id: string) => {};
 
   return (
     <div>
@@ -40,12 +39,20 @@ const Action = ({
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
-          <DropdownMenuItem onClick={() => navigator.clipboard.writeText(id)}>
+          <DropdownMenuItem
+            onClick={() => {
+              navigator.clipboard.writeText(id);
+              toast("Thành công", {
+                icon: <CircleCheck size={20} fill="black" color="white" />,
+                description: `Copied ID to clipboard`,
+              });
+            }}
+          >
             Copy ID
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem
-            onClick={() => handleDelete(id)}
+            onClick={() => onDelete(id)}
             className="text-destructive"
           >
             <span>Delete</span>
