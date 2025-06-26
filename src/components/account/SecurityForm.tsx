@@ -9,24 +9,34 @@ import {
 import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   SecurityFormSchema,
   SecuritySchemaType,
+  defaultValues,
 } from "@/schema/security.schema";
+import { useUpdatePassword } from "@/hooks/useAccount";
+import { toast } from "sonner";
+import { CircleCheck } from "lucide-react";
 
 const Security = () => {
   const form = useForm<SecuritySchemaType>({
     resolver: zodResolver(SecurityFormSchema),
-    defaultValues: {
-      currentPassword: "",
-      newPassword: "",
-      repeatPassword: "",
-    },
+    defaultValues,
   });
 
-  const onSubmit = (data: SecuritySchemaType) => {};
+  const { mutate } = useUpdatePassword();
+
+  const onSubmit = (data: SecuritySchemaType) => {
+    mutate(data, {
+      onSuccess: (res) => {
+        toast("Thành công", {
+          icon: <CircleCheck fill="black" size="20" color="white" />,
+          description: res.message,
+        });
+      },
+    });
+  };
   return (
     <section className="rounded-xl border bg-card text-card-foreground shadow mb-8 scroll-mt-20 flex-1">
       <div className="p-5 space-y-5">

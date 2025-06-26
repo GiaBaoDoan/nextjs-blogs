@@ -18,8 +18,12 @@ export const createComment = async (
   blogId: string,
   data: CommentSchemaType
 ) => {
-  const res = await configAxios.post<Response>(`/comment/${blogId}`, data);
-  return res.data;
+  try {
+    const res = await configAxios.post<Response>(`/comment/${blogId}`, data);
+    return res.data;
+  } catch (err: any) {
+    throw new Error(err?.response?.data.message || "");
+  }
 };
 
 export const deleteComment = async (id: string, blogId: string) => {

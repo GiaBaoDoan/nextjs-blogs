@@ -42,15 +42,15 @@ const TagDetailPage = () => {
         <SearchInput onChange={updateQuery} keyword={queries.keyword} />
       </div>
 
-      <div className="grid grid-cols-3 gap-5">
-        {blogs?.data?.map((blog, index) =>
-          isLoading ? (
-            <BlogSkeletonCard key={index} />
-          ) : (
+      {isLoading ? (
+        <BlogSkeletonCard />
+      ) : (
+        <div className="grid grid-cols-3 gap-5">
+          {blogs?.data?.map((blog, index) => (
             <BlogCardWithTags blog={blog} key={index} />
-          )
-        )}
-      </div>
+          ))}
+        </div>
+      )}
 
       <CustomPagination
         currentPage={blogs?.pagination?.page as number}

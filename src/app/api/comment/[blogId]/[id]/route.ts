@@ -1,6 +1,5 @@
 import { withErrorHandler } from "@/lib/errorHandler";
 import { CommentModel } from "@/models/Comment";
-import { tParams } from "@/types";
 import { NextRequest, NextResponse } from "next/server";
 
 import CustomError from "@/lib/cutomError";

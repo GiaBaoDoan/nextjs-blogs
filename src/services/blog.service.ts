@@ -26,7 +26,7 @@ export const getPostById = async (id: string) => {
 // Tạo post mới
 export const createPost = async (data: BlogSchemaType) => {
   try {
-    const res = await configAxios.post("/blogs", data);
+    const res = await configAxios.post<Response>("/blogs", data);
     return res.data;
   } catch (err: any) {
     throw new Error(err.response.data.message || "Đã có lỗi xảy ra");
@@ -36,7 +36,7 @@ export const createPost = async (data: BlogSchemaType) => {
 //  Cập nhật post
 export const updatePost = async (id: string, data: BlogSchemaType) => {
   try {
-    const res = await configAxios.put(`/blogs/${id}`, data);
+    const res = await configAxios.put<Response>(`/blogs/${id}`, data);
     return res.data;
   } catch (err: any) {
     throw new Error(err.response.data.message || "Đã có lỗi xảy ra");

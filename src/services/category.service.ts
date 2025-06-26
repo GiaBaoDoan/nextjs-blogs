@@ -5,8 +5,12 @@ import { Category } from "@/types/category.type";
 
 // Lấy danh sách tất cả category
 export const getCategories = async () => {
-  const res = await configAxios.get<Response<Category[]>>("/categories");
-  return res.data;
+  try {
+    const res = await configAxios.get<Response<Category[]>>("/categories");
+    return res.data;
+  } catch (err: any) {
+    throw new Error(err.response.data.message);
+  }
 };
 
 // Lấy 1 category theo id

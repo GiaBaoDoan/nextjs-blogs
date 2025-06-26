@@ -18,8 +18,9 @@ import {
   defaultValues,
 } from "@/schema/comment.schema";
 import { Input } from "@/components/ui/input";
-import { Send } from "lucide-react";
+import { CircleCheck, Send } from "lucide-react";
 import { useCreateComment } from "@/hooks/useComments";
+import { toast } from "sonner";
 
 const CommentForm = ({ blogId }: { blogId: string }) => {
   const form = useForm<CommentSchemaType>({
@@ -30,8 +31,15 @@ const CommentForm = ({ blogId }: { blogId: string }) => {
   const createComment = useCreateComment(blogId);
 
   const onSubmit = (data: CommentSchemaType) => {
-    createComment.mutate(data);
-    form.reset(defaultValues);
+    createComment.mutate(data, {
+      onSuccess: (res) => {
+        toast("Thành công", {
+          icon: <CircleCheck fill="black" size="20" color="white" />,
+          description: res.message,
+        });
+        form.reset(defaultValues);
+      },
+    });
   };
 
   return (

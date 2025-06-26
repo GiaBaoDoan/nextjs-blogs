@@ -21,14 +21,15 @@ import { useLogout } from "@/hooks/useAuth";
 const UserAuth = () => {
   const { data } = useFetchAccount();
   const { mutate } = useLogout();
-  const account = data?.data;
-  return account ? (
+
+  console.log(data);
+  return data?.data ? (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <button>
-          {account.image ? (
+          {data?.data.image ? (
             <Image
-              src={account.image}
+              src={data?.data.image}
               alt="avatar"
               width={100}
               height={100}
@@ -41,10 +42,10 @@ const UserAuth = () => {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuLabel className="text-sm">
-          {account.username}
+          {data?.data.username}
         </DropdownMenuLabel>
         <DropdownMenuItem className="text-xs text-muted-foreground">
-          {account.email}
+          {data?.data.email}
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>

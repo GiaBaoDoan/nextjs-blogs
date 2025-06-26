@@ -20,6 +20,8 @@ import {
   defaultValues,
 } from "@/schema/profile.schema";
 import { useUpdateProfile } from "@/hooks/useAccount";
+import { CircleCheck } from "lucide-react";
+import { toast } from "sonner";
 
 const Profile = ({ account }: { account: User }) => {
   const form = useForm<ProfileType>({
@@ -27,7 +29,18 @@ const Profile = ({ account }: { account: User }) => {
     defaultValues,
   });
 
-  const updateProfile = useUpdateProfile();
+  const { mutate, isPending } = useUpdateProfile();
+
+  const onSubmit = (data: ProfileType) => {
+    mutate(data, {
+      onSuccess: (res) => {
+        toast("Thành công", {
+          icon: <CircleCheck fill="black" size="20" color="white" />,
+          description: res.message,
+        });
+      },
+    });
+  };
 
   useEffect(() => {
     if (account) {
@@ -41,12 +54,7 @@ const Profile = ({ account }: { account: User }) => {
         <h4>Hồ sơ</h4>
         <hr />
         <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit((data: ProfileType) =>
-              updateProfile.mutate(data)
-            )}
-            className="space-y-6 "
-          >
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 ">
             <FormField
               control={form.control}
               name="username"
@@ -55,7 +63,11 @@ const Profile = ({ account }: { account: User }) => {
                   <FormLabel className="w-40">Họ tên</FormLabel>
                   <div className="w-[500px]">
                     <FormControl>
-                      <Input placeholder="Nguyễn văn A" {...field} />
+                      <Input
+                        disabled={isPending}
+                        placeholder="Nguyễn văn A"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </div>
@@ -71,6 +83,7 @@ const Profile = ({ account }: { account: User }) => {
                   <div className="w-[500px]">
                     <FormControl>
                       <Input
+                        disabled={isPending}
                         placeholder="Điền số điện thoại của bạn"
                         type="text"
                         {...field}
@@ -82,7 +95,7 @@ const Profile = ({ account }: { account: User }) => {
               )}
             />
 
-            <Button variant="secondary" type="submit">
+            <Button disabled={isPending} variant="secondary" type="submit">
               Lưu lại
             </Button>
           </form>

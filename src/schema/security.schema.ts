@@ -11,4 +11,10 @@ export const SecurityFormSchema = z
     message: "Mật khẩu nhập lại không khớp",
   });
 
+export const defaultValues = {
+  currentPassword: "",
+  newPassword: "",
+  repeatPassword: "",
+};
+
 export type SecuritySchemaType = z.infer<typeof SecurityFormSchema>;

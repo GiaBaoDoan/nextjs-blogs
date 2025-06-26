@@ -42,14 +42,14 @@ async function postHandler(
   const { blogId } = await params;
   const data = await request.json();
 
-  const comments = await CommentModel.create({
+  await CommentModel.create({
     ...data,
     blogId,
   });
 
   return NextResponse.json(
     {
-      data: comments,
+      message: "Đã thêm mới bình luận",
     },
     {
       status: 200,

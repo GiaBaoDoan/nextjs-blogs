@@ -1,12 +1,12 @@
 "use client";
 
+import Back from "@/components/ui/back";
 import { BlogForm } from "@/components/blogs/BlogForm";
 import { usePost, useUpdatePost } from "@/hooks/useBlogs";
 import { BlogSchemaType } from "@/schema/blog.schema";
 import { useParams } from "next/navigation";
 import { useMemo } from "react";
 import { toast } from "sonner";
-import Back from "@/components/ui/back";
 import { CircleCheck } from "lucide-react";
 
 const BlogEditPage = () => {

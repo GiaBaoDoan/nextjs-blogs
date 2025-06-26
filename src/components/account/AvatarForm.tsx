@@ -17,8 +17,10 @@ import {
 } from "@/schema/avatar.schema";
 import { User } from "@/types/user.type";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { CircleCheck } from "lucide-react";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 const Avatar = ({ account }: { account: User }) => {
   const form = useForm<AvatarFormType>({
@@ -26,10 +28,17 @@ const Avatar = ({ account }: { account: User }) => {
     defaultValues,
   });
 
-  const updateAvatar = useUpdateAvatar();
+  const { mutate, isPending } = useUpdateAvatar();
 
   const onSubmit = (data: AvatarFormType) => {
-    updateAvatar.mutate(data);
+    mutate(data, {
+      onSuccess: (res) => {
+        toast("Thành công", {
+          icon: <CircleCheck size={20} color="white" fill="black" />,
+          description: res.message,
+        });
+      },
+    });
   };
 
   useEffect(() => {
@@ -63,7 +72,7 @@ const Avatar = ({ account }: { account: User }) => {
                 )}
               />
 
-              <Button className="mt-5" variant="secondary">
+              <Button disabled={isPending} className="mt-5" variant="secondary">
                 Cập nhật
               </Button>
             </form>

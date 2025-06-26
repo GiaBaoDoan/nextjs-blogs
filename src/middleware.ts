@@ -6,7 +6,9 @@ export async function middleware(req: NextRequest) {
   const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
   const isAuth = !!token;
 
-  const isProtected = req.nextUrl.pathname.startsWith("/admin");
+  const isProtected = ["/admin", "/account"].some((path) =>
+    req.nextUrl.pathname.startsWith(path)
+  );
   const isAuthPage = req.nextUrl.pathname.startsWith("/auth");
 
   if (isProtected && !isAuth) {

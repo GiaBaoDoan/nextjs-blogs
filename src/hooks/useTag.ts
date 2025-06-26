@@ -33,6 +33,7 @@ export const useUpdateTag = (id: string) => {
     mutationFn: (data: TagSchemaType) => TagApi.updateTag(id, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["tags"] });
+      queryClient.invalidateQueries({ queryKey: ["tag", id] });
     },
   });
 };

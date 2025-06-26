@@ -45,12 +45,6 @@ const Action = ({
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem
-            onClick={() => router.push(`${pathName}/edit/${id}`)}
-          >
-            <Eye color="black" size={15} />
-            <span>View</span>
-          </DropdownMenuItem>
-          <DropdownMenuItem
             onClick={() => handleDelete(id)}
             className="text-destructive"
           >

@@ -81,18 +81,6 @@ export default function BlogListTable() {
         );
       },
     },
-    // {
-    //   header: "Bình luận",
-    //   cell: ({ row }) => {
-    //     return (
-    //       <Link href={`/admin/comments/${row.original._id}/`}>
-    //         <Button className="text-right cursor-pointer">
-    //           <MessageSquare className="text-right" size={15} />
-    //         </Button>
-    //       </Link>
-    //     );
-    //   },
-    // },
     {
       header: "Actions",
       cell: ({ row }) => {

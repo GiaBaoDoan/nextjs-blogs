@@ -83,7 +83,7 @@ export function UserForm({ user }: { user: UserSchemaType }) {
                 <FormItem className="flex">
                   <FormLabel className="w-40">Họ tên</FormLabel>
                   <FormControl>
-                    <Input {...field} />
+                    <Input disabled={isPending} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -97,7 +97,7 @@ export function UserForm({ user }: { user: UserSchemaType }) {
                 <FormItem className="flex">
                   <FormLabel className="w-40">Địa chỉ</FormLabel>
                   <FormControl>
-                    <Input {...field} />
+                    <Input disabled={isPending} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -110,7 +110,7 @@ export function UserForm({ user }: { user: UserSchemaType }) {
                 <FormItem className="flex">
                   <FormLabel className="w-40">Mật khẩu</FormLabel>
                   <FormControl>
-                    <Input type="password" {...field} />
+                    <Input disabled={isPending} type="password" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -123,7 +123,11 @@ export function UserForm({ user }: { user: UserSchemaType }) {
                 <FormItem className="flex">
                   <FormLabel className="w-40">Mô tả</FormLabel>
                   <FormControl>
-                    <Textarea className="min-h-[80px]" {...field} />
+                    <Textarea
+                      disabled={isPending}
+                      className="min-h-[80px]"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -137,7 +141,11 @@ export function UserForm({ user }: { user: UserSchemaType }) {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Quyền</FormLabel>
-                  <Select {...field} onValueChange={field.onChange}>
+                  <Select
+                    disabled={isPending}
+                    {...field}
+                    onValueChange={field.onChange}
+                  >
                     <FormControl>
                       <SelectTrigger className="w-full">
                         <SelectValue placeholder="Quyền" />
@@ -159,7 +167,11 @@ export function UserForm({ user }: { user: UserSchemaType }) {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Status</FormLabel>
-                  <Select {...field} onValueChange={field.onChange}>
+                  <Select
+                    disabled={isPending}
+                    {...field}
+                    onValueChange={field.onChange}
+                  >
                     <FormControl>
                       <SelectTrigger className="w-full">
                         <SelectValue />
