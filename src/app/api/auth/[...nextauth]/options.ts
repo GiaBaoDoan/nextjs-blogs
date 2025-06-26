@@ -1,8 +1,7 @@
+import Credentials from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import { NextAuthOptions } from "next-auth";
-import Credentials from "next-auth/providers/credentials";
 import { login } from "@/lib/auth";
-import { JWT } from "next-auth/jwt";
 import { User } from "@/types/user.type";
 
 export const authOptions: NextAuthOptions = {

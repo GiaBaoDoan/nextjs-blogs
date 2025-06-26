@@ -5,9 +5,7 @@ type AlertBoxProps = {
   type?: "success" | "error";
 };
 
-const AlertBox = ({ message, type = "success" }: AlertBoxProps) => {
-  if (!message) return null;
-
+const AlertBox = ({ message, type }: AlertBoxProps) => {
   const isSuccess = type === "success";
   const bgColor = isSuccess ? "bg-emerald-500/15" : "bg-destructive/15";
   const textColor = isSuccess ? "text-emerald-500" : " text-destructive";

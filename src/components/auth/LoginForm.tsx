@@ -23,41 +23,31 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { LoginSchemaType, LoginFormSchema } from "@/schema/login.schema";
-import { signIn } from "next-auth/react";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import {
+  LoginSchemaType,
+  LoginFormSchema,
+  defaultValues,
+} from "@/schema/login.schema";
 import AlertBox from "@/components/ui/alert-box";
+import { useRouter } from "next/navigation";
+import { useLogin } from "@/hooks/useAuth";
 
 export function LoginForm() {
   const form = useForm<LoginSchemaType>({
     resolver: zodResolver(LoginFormSchema),
-    defaultValues: {
-      email: "",
-      password: "",
-    },
+    defaultValues,
   });
 
   const router = useRouter();
 
-  const [message, setMessage] = useState<string>("");
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { mutate, isPending, isError, error } = useLogin();
 
   async function onSubmit(data: LoginSchemaType) {
-    setIsLoading(true);
-
-    const res = await signIn("credentials", {
-      ...data,
-      redirect: false,
+    mutate(data, {
+      onSuccess: () => {
+        router.push("/");
+      },
     });
-
-    if (!res?.ok) {
-      setMessage(res?.error as string);
-      setIsLoading(false);
-    } else {
-      setIsLoading(false);
-      router.push("/");
-    }
   }
 
   return (
@@ -72,7 +62,7 @@ export function LoginForm() {
             <FormField
               control={form.control}
               name="email"
-              disabled={isLoading}
+              disabled={isPending}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Email</FormLabel>
@@ -84,7 +74,7 @@ export function LoginForm() {
               )}
             />
             <FormField
-              disabled={isLoading}
+              disabled={isPending}
               control={form.control}
               name="password"
               render={({ field }) => (
@@ -103,8 +93,8 @@ export function LoginForm() {
             >
               Quên mật khẩu ?
             </Link>
-            <AlertBox message={message} type={"error"} />
-            <Button disabled={isLoading} className="w-full p-7" type="submit">
+            {isError && <AlertBox message={error.message} type={"error"} />}
+            <Button disabled={isPending} className="w-full p-3">
               Đăng nhập
             </Button>
           </form>

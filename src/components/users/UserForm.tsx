@@ -29,17 +29,27 @@ import { useEffect } from "react";
 import { UserRole, UserStatus } from "@/constants/enum";
 import { useUpdateUser } from "@/hooks/useUsers";
 import { useParams } from "next/navigation";
+import { CircleCheck } from "lucide-react";
+import { toast } from "sonner";
 
 export function UserForm({ user }: { user: UserSchemaType }) {
   const form = useForm<UserSchemaType>({
     resolver: zodResolver(UserFormSchema),
     defaultValues: user || UserDefaultValues,
   });
-
   const { id } = useParams();
-  const updateUser = useUpdateUser(id as string);
 
-  const onSubmit = (data: UserSchemaType) => updateUser.mutate(data);
+  const { mutate, isPending } = useUpdateUser(id as string);
+
+  const onSubmit = (data: UserSchemaType) =>
+    mutate(data, {
+      onSuccess: (res) => {
+        toast("Thành công", {
+          icon: <CircleCheck fill="black" size="20" color="white" />,
+          description: res.message,
+        });
+      },
+    });
 
   useEffect(() => {
     if (user) {
@@ -172,7 +182,7 @@ export function UserForm({ user }: { user: UserSchemaType }) {
                 </FormItem>
               )}
             />
-            <Button className="w-full" type="submit">
+            <Button disabled={isPending} className="w-full" type="submit">
               Cập nhật
             </Button>
           </div>

@@ -15,11 +15,12 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { LogOut, Settings, User } from "lucide-react";
-import { signOut } from "next-auth/react";
 import { useFetchAccount } from "@/hooks/useAccount";
+import { useLogout } from "@/hooks/useAuth";
 
 const UserAuth = () => {
   const { data } = useFetchAccount();
+  const { mutate } = useLogout();
   const account = data?.data;
   return account ? (
     <DropdownMenu>
@@ -59,7 +60,7 @@ const UserAuth = () => {
           </Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={() => signOut()}>
+        <DropdownMenuItem onClick={() => mutate()}>
           <LogOut className="mr-2 h-4 w-4" />
           Đăng xuất
         </DropdownMenuItem>

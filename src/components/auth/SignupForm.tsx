@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import AlertBox from "@/components/ui/alert-box";
 
 import {
   Card,
@@ -24,44 +25,23 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-
-import { SignupType, SignupFormSchema } from "@/schema/signup.schema";
-import { useState } from "react";
-import { HttpError } from "@/types";
-import { AxiosError } from "axios";
-import AlertBox from "@/components/ui/alert-box";
+import {
+  SignupType,
+  SignupFormSchema,
+  defaultValues,
+} from "@/schema/signup.schema";
 import { useSignup } from "@/hooks/useAuth";
 
 export function SignupForm() {
   const form = useForm<SignupType>({
     resolver: zodResolver(SignupFormSchema),
-    defaultValues: {
-      email: "",
-      username: "",
-      password: "",
-    },
+    defaultValues,
   });
 
-  const [message, setMessage] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [isError, setIsError] = useState(false);
-  const signupMutation = useSignup();
+  const { mutate, isPending, isError, error, isSuccess, data } = useSignup();
 
   async function onSubmit(data: SignupType) {
-    setMessage("");
-    setIsError(false);
-
-    signupMutation.mutate(data, {
-      onSuccess: (res) => {
-        setMessage(res.message);
-        setIsError(false);
-      },
-      onError: (err) => {
-        const error = err as AxiosError<HttpError>;
-        setMessage(error.response?.data.message || "Đăng ký thất bại.");
-        setIsError(true);
-      },
-    });
+    mutate(data);
   }
 
   return (
@@ -76,7 +56,7 @@ export function SignupForm() {
             <FormField
               control={form.control}
               name="username"
-              disabled={isLoading}
+              disabled={isPending}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Tên</FormLabel>
@@ -90,7 +70,7 @@ export function SignupForm() {
             <FormField
               control={form.control}
               name="email"
-              disabled={isLoading}
+              disabled={isPending}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Email</FormLabel>
@@ -105,7 +85,7 @@ export function SignupForm() {
             <FormField
               control={form.control}
               name="password"
-              disabled={isLoading}
+              disabled={isPending}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Password</FormLabel>
@@ -116,9 +96,11 @@ export function SignupForm() {
                 </FormItem>
               )}
             />
-            <AlertBox message={message} type={isError ? "error" : "success"} />
+            {isError && <AlertBox message={error.message} type={"error"} />}
+            {isSuccess && <AlertBox message={data.message} type={"success"} />}
+
             <Button
-              disabled={isLoading}
+              disabled={isPending}
               className="text-center w-full p-7"
               type="submit"
             >

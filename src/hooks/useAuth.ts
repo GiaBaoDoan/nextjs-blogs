@@ -1,19 +1,32 @@
 import * as authApi from "@/services/auth.service";
-import { LoginSchemaType } from "@/schema/login.schema";
-import { SignupType } from "@/schema/signup.schema";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { signOut } from "next-auth/react";
 
 // Đăng nhập
 export function useLogin() {
+  const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (data: LoginSchemaType) => authApi.login(data),
+    mutationFn: authApi.login,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["account"] });
+    },
+  });
+}
+
+export function useLogout() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async () => signOut(),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["account"] });
+    },
   });
 }
 
 // Đăng ký
 export function useSignup() {
   return useMutation({
-    mutationFn: (data: SignupType) => authApi.signup(data),
+    mutationFn: authApi.signup,
   });
 }
 
@@ -22,6 +35,6 @@ export function useVerify(id: string, token: string) {
   return useQuery({
     queryKey: ["auth", "verify", id, token],
     queryFn: () => authApi.verify(id, token),
-    enabled: !!id && !!token, // chỉ gọi nếu cả id và token tồn tại
+    enabled: !!id && !!token,
   });
 }

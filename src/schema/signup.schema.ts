@@ -7,5 +7,9 @@ export const SignupFormSchema = z.object({
 });
 
 export type SignupType = z.infer<typeof SignupFormSchema>;
-
+export const defaultValues = {
+  email: "",
+  username: "",
+  password: "",
+};
 export default SignupFormSchema;
