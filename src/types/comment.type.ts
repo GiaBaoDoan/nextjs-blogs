@@ -5,6 +5,7 @@ export interface Comment extends Omit<CommentType, "user"> {
   blogId: string;
   user: {
     _id: string;
+    email: string;
     username: string;
     image: string;
   };

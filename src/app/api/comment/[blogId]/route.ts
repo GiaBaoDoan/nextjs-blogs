@@ -22,7 +22,7 @@ async function getHandler(
 
   const comments = await CommentModel.find({ blogId })
     .sort({ createdAt: -1 })
-    .populate("user", "username image");
+    .populate("user", "username image email");
 
   return NextResponse.json(
     {

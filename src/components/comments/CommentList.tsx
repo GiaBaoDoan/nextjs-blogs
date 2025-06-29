@@ -7,9 +7,12 @@ import SuccessToast from "@/components/custom/SuccessToast";
 import ErrorToast from "@/components/custom/ErrorToast";
 import Action from "@/components/ui/action";
 import Image from "next/image";
+import { useSession } from "next-auth/react";
 
 const CommentList = ({ blogId }: { blogId: string }) => {
   const { data: comments } = useFetchCommentList(blogId);
+
+  const { data: session } = useSession();
 
   const { mutate } = useDeleteComment();
 
@@ -45,7 +48,7 @@ const CommentList = ({ blogId }: { blogId: string }) => {
                   alt="Ảnh người bình luận"
                   width={200}
                   height={200}
-                  className="rounded-full w-14 h-14 object-cover"
+                  className="rounded-full w-8 h-8 object-cover"
                 />
                 <div>
                   <p className="text-sm font-medium text-foreground">
@@ -57,11 +60,14 @@ const CommentList = ({ blogId }: { blogId: string }) => {
                 </div>
               </div>
 
-              {/* Nút xóa hoặc action khác */}
-              <Action id={comment._id} onDelete={onDeleteComment} />
+              {session?.user?.id === comment.user._id && (
+                <Action id={comment._id} onDelete={onDeleteComment} />
+              )}
             </div>
 
-            <div className="text-sm">{comment.content}</div>
+            <div className="text-sm pt-2 leading-relaxed text-foreground">
+              {comment.content}
+            </div>
           </div>
         );
       })}
