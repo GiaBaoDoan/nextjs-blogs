@@ -4,6 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 import CustomError from "@/lib/cutomError";
 import connect from "@/lib/database";
+import Blog from "@/models/Blog";
 
 const deleteHandler = async (
   _: NextRequest,
@@ -11,13 +12,17 @@ const deleteHandler = async (
     params,
   }: {
     params: Promise<{
-      id: string;
       blogId: string;
+      id: string;
     }>;
   }
 ) => {
   await connect();
-  const { id } = await params;
+  const { blogId, id } = await params;
+
+  const blog = await Blog.findById(blogId);
+
+  if (!blog) throw new CustomError("Không tìm thấy bài viết!", 404);
 
   const comment = await CommentModel.findByIdAndDelete(id);
   if (!comment) throw new CustomError("Không tìm thấy bình luận!", 404);

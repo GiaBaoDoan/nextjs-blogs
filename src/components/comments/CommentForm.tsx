@@ -1,7 +1,16 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useSession } from "next-auth/react";
+import { useCreateComment } from "@/hooks/useComments";
+
+import {
+  CommentSchema,
+  CommentType,
+  defaultValues,
+} from "@/schema/comment.schema";
+
 import {
   Form,
   FormControl,
@@ -10,102 +19,70 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  CommentFormSchema,
-  CommentSchemaType,
-  defaultValues,
-} from "@/schema/comment.schema";
 import { Input } from "@/components/ui/input";
-import { CircleCheck, Send } from "lucide-react";
-import { useCreateComment } from "@/hooks/useComments";
-import { toast } from "sonner";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
+import { Send } from "lucide-react";
+import SuccessToast from "@/components/custom/SuccessToast";
+import Link from "next/link";
 
-const CommentForm = ({ blogId }: { blogId: string }) => {
-  const form = useForm<CommentSchemaType>({
-    resolver: zodResolver(CommentFormSchema),
+export default function CommentForm({ blogId }: { blogId: string }) {
+  const { data: session } = useSession();
+
+  const form = useForm<CommentType>({
+    resolver: zodResolver(CommentSchema),
     defaultValues,
   });
 
-  const createComment = useCreateComment(blogId);
+  const { mutate, isPending } = useCreateComment(blogId);
 
-  const onSubmit = (data: CommentSchemaType) => {
-    createComment.mutate(data, {
+  const onSubmit = (data: CommentType) => {
+    mutate(data, {
       onSuccess: (res) => {
-        toast("Thành công", {
-          icon: <CircleCheck fill="black" size="20" color="white" />,
-          description: res.message,
-        });
+        SuccessToast(res.message);
         form.reset(defaultValues);
       },
     });
   };
+
+  if (!session) {
+    return (
+      <div className="py-10">
+        <h3 className="mb-4 font-bold">Bạn cần đăng nhập để bình luận</h3>
+        <Link href="/auth/login">
+          <Button variant="outline">Đăng nhập</Button>
+        </Link>
+      </div>
+    );
+  }
 
   return (
     <div className="py-10">
       <h3 className="mb-10 font-bold">Để lại bình luận</h3>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-7">
-          <div className="grid grid-cols-2 gap-2">
-            <FormField
-              control={form.control}
-              name="username"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Họ tên</FormLabel>
-                  <FormControl>
-                    <Input
-                      className="py-7 px-5"
-                      {...field}
-                      placeholder="Họ tên"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input
-                      className="py-7 px-5"
-                      {...field}
-                      placeholder="Email"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
           <FormField
             control={form.control}
             name="content"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Bình luận</FormLabel>
                 <FormControl>
                   <Textarea
                     {...field}
                     className="min-h-[120px] border-slate-300"
+                    placeholder="Viết bình luận của bạn..."
                   />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
+
           <Button className="p-7" type="submit">
-            Gửi bình luận <Send />
+            Gửi bình luận <Send className="ml-2" />
           </Button>
         </form>
       </Form>
     </div>
   );
-};
-
-export default CommentForm;
+}

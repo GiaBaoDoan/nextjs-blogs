@@ -1,15 +1,11 @@
 import { z } from "zod";
 
-export const CommentFormSchema = z.object({
-  content: z.string().min(9),
-  email: z.string().email(),
-  username: z.string().min(3),
+export const CommentSchema = z.object({
+  content: z.string().min(9, "Nội dung quá ngắn"),
 });
 
-export type CommentSchemaType = z.infer<typeof CommentFormSchema>;
+export type CommentType = z.infer<typeof CommentSchema>;
 
-export const defaultValues = {
+export const defaultValues: CommentType = {
   content: "",
-  email: "",
-  username: "",
 };

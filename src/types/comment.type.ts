@@ -1,10 +1,13 @@
-import { CommentSchemaType } from "@/schema/comment.schema";
+import { CommentType } from "@/schema/comment.schema";
 
-export interface Comment extends Omit<CommentSchemaType, "user"> {
+export interface Comment extends Omit<CommentType, "user"> {
   _id: string;
   blogId: string;
-  username: string;
-  email: string;
+  user: {
+    _id: string;
+    username: string;
+    image: string;
+  };
   createdAt: string;
   updatedAt: string;
 }

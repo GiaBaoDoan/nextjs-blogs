@@ -1,28 +1,17 @@
-import mongoose from "mongoose";
+import mongoose, { Types } from "mongoose";
 
 const CommentSchema = new mongoose.Schema(
   {
-    content: {
-      type: String,
-      required: true,
-    },
-    blogId: {
-      type: String,
-      required: true,
-    },
-    email: {
-      type: String,
-      required: true,
-    },
-    username: {
-      type: String,
-      required: true,
-    },
+    blogId: { type: Types.ObjectId, ref: "Blog", required: true },
+
+    content: { type: String, required: true, trim: true, maxlength: 1000 },
+
+    user: { type: Types.ObjectId, ref: "User", default: null },
   },
-  {
-    timestamps: true,
-  }
+  { timestamps: true }
 );
+
+CommentSchema.index({ blogId: 1, createdAt: -1 });
 
 export const CommentModel =
   mongoose.models.Comment || mongoose.model("Comment", CommentSchema);

@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import * as commentApi from "@/services/comment.service";
-import { CommentSchemaType } from "@/schema/comment.schema";
+import { CommentType } from "@/schema/comment.schema";
 
 export function useFetchCommentList(blogId: string) {
   return useQuery({
@@ -13,18 +13,18 @@ export function useFetchCommentList(blogId: string) {
 export function useCreateComment(blogId: string) {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (data: CommentSchemaType) =>
-      commentApi.createComment(blogId, data),
+    mutationFn: (data: CommentType) => commentApi.createComment(blogId, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["comments", blogId] });
     },
   });
 }
 
-export function useDeleteComment(blogId: string, id: string) {
+export function useDeleteComment() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: () => commentApi.deleteComment(blogId, id),
+    mutationFn: ({ blogId, id }: { blogId: string; id: string }) =>
+      commentApi.deleteComment(blogId, id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["comments"] });
     },

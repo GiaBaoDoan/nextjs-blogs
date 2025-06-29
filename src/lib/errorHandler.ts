@@ -7,7 +7,6 @@ export function withErrorHandler<
     try {
       return await handler(req, ctx);
     } catch (err: any) {
-      console.log(err);
       const message = err.message || "Internal Server Error";
       const status = err.status || 500;
 

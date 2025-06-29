@@ -6,10 +6,11 @@ import ButtonPrimary from "@/components/ui/button-primary";
 
 import { Blog } from "@/types/blog.type";
 import { usePosts } from "@/hooks/useBlogs";
+import { BlogSkeletonCard } from "@/components/blogs/BlogSkeleton";
 
 const BlogHighLight = () => {
-  const { queries } = useQuery({ limit: 6 });
-  const { data: blogs } = usePosts(queries);
+  const { queries } = useQuery({ page: 1, limit: 6 });
+  const { data: blogs, isLoading } = usePosts(queries);
 
   return (
     <section className="flex items-center flex-col py-10">
@@ -20,7 +21,12 @@ const BlogHighLight = () => {
           và những chia sẻ thực tế từ hành trình phát triển phần mềm.
         </p>
       </article>
-      <BlogList blogs={blogs?.data as Blog[]} />
+
+      {isLoading ? (
+        <BlogSkeletonCard />
+      ) : (
+        <BlogList blogs={blogs?.data as Blog[]} />
+      )}
       <ButtonPrimary className="mt-10 bg-indigo-700" link="/blogs">
         Đọc bài viết{" "}
         <svg

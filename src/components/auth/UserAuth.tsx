@@ -22,7 +22,6 @@ const UserAuth = () => {
   const { data } = useFetchAccount();
   const { mutate } = useLogout();
 
-  console.log(data);
   return data?.data ? (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>

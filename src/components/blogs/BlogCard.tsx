@@ -24,7 +24,7 @@ const BlogCard = ({ blog }: { blog: Blog }) => {
         {blog.category.name}
       </span>
       <div className="space-y-2 mb-5">
-        <h4 className="font-semibold hover:text-blue-600 transition-all">
+        <h4 className="font-semibold hover:text-blue-600 hover:underline transition-all">
           {blog.title}
         </h4>
         <p className="text-sm text-muted-foreground line-clamp-2">

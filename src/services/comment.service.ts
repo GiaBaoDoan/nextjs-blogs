@@ -1,7 +1,7 @@
-import { CommentSchemaType } from "@/schema/comment.schema";
-import { Response } from "@/types";
 import configAxios from "@/lib/axios";
+import { Response } from "@/types";
 import { Comment } from "@/types/comment.type";
+import { CommentType } from "@/schema/comment.schema";
 
 export const getCommentList = async (blogId: string) => {
   try {
@@ -14,10 +14,7 @@ export const getCommentList = async (blogId: string) => {
   }
 };
 
-export const createComment = async (
-  blogId: string,
-  data: CommentSchemaType
-) => {
+export const createComment = async (blogId: string, data: CommentType) => {
   try {
     const res = await configAxios.post<Response>(`/comment/${blogId}`, data);
     return res.data;
@@ -26,7 +23,7 @@ export const createComment = async (
   }
 };
 
-export const deleteComment = async (id: string, blogId: string) => {
+export const deleteComment = async (blogId: string, id: string) => {
   const res = await configAxios.delete<Response>(`/comment/${blogId}/${id}`);
   return res.data;
 };

@@ -1,4 +1,4 @@
-GET http://localhost:3000/api/category/6813903c56808d1e1d5b4dcd
+GET http://localhost:3000/api/comments
 ####
 GET http://localhost:3000/api/tags
 ####

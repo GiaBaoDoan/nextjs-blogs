@@ -11,10 +11,7 @@ import { useCategory, useUpdateCategory } from "@/hooks/useCategories";
 
 const CategoryEditPage = () => {
   const { id } = useParams();
-
   const { data } = useCategory(id as string);
-
-  console.log(data);
 
   const { mutate } = useUpdateCategory(id as string);
 
