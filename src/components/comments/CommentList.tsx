@@ -3,11 +3,12 @@
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { useDeleteComment, useFetchCommentList } from "@/hooks/useComments";
+import { useSession } from "next-auth/react";
+
 import SuccessToast from "@/components/custom/SuccessToast";
 import ErrorToast from "@/components/custom/ErrorToast";
 import Action from "@/components/ui/action";
-import Image from "next/image";
-import { useSession } from "next-auth/react";
+import UserAvatar from "@/components/users/UserAvatar";
 
 const CommentList = ({ blogId }: { blogId: string }) => {
   const { data: comments } = useFetchCommentList(blogId);
@@ -27,8 +28,8 @@ const CommentList = ({ blogId }: { blogId: string }) => {
   };
 
   return (
-    <div className="space-y-10 mt-10">
-      <h2 className="font-bold">{comments?.data?.length} bình luận</h2>
+    <section className="mb-5 space-y-10">
+      <h2>{comments?.data?.length} bình luận</h2>
       {comments?.data?.map((comment, index) => {
         const isLast = index === (comments?.data?.length as number) - 1;
 
@@ -43,15 +44,9 @@ const CommentList = ({ blogId }: { blogId: string }) => {
           >
             <div className="flex items-start justify-between">
               <div className="flex items-center gap-3">
-                <Image
-                  src={comment.user?.image || "/default-avatar.png"}
-                  alt="Ảnh người bình luận"
-                  width={200}
-                  height={200}
-                  className="rounded-full w-8 h-8 object-cover"
-                />
+                <UserAvatar avatar={comment.user.image} />
                 <div>
-                  <p className="text-sm font-medium text-foreground">
+                  <p className="text-sm font-semibold text-foreground">
                     {comment.user?.username}
                   </p>
                   <p className="text-xs text-muted-foreground">
@@ -65,13 +60,13 @@ const CommentList = ({ blogId }: { blogId: string }) => {
               )}
             </div>
 
-            <div className="text-sm pt-2 leading-relaxed text-foreground">
+            <blockquote className="text-sm italic leading-relaxed text-foreground">
               {comment.content}
-            </div>
+            </blockquote>
           </div>
         );
       })}
-    </div>
+    </section>
   );
 };
 

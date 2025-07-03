@@ -16,7 +16,7 @@ const RelatedBlogs = ({ category }: { category: string }) => {
   const { data: relatedBlogs } = usePosts(queries);
 
   return (
-    <div className="mt-8">
+    <section className="mt-8">
       <h3 className="text-xl font-semibold mb-4">Bài viết liên quan</h3>
       <Carousel>
         <CarouselContent>
@@ -29,7 +29,7 @@ const RelatedBlogs = ({ category }: { category: string }) => {
         <CarouselPrevious />
         <CarouselNext />
       </Carousel>
-    </div>
+    </section>
   );
 };
 

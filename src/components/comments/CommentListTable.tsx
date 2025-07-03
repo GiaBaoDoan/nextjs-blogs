@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect } from "react";
 import { format } from "date-fns";
 import { DataTable } from "@/components/ui/data-table";
 import { ColumnDef } from "@tanstack/react-table";

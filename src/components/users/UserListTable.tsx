@@ -33,21 +33,7 @@ export function UserListTable() {
       accessorKey: "image",
       cell: ({ row }) => {
         const image = row.original.image;
-        return (
-          <div>
-            {image ? (
-              <Image
-                src={image}
-                alt="ảnh avatar"
-                width={200}
-                height={200}
-                className="w-12 h-12 rounded-full object-cover"
-              />
-            ) : (
-              <UserAvatar />
-            )}
-          </div>
-        );
+        return <UserAvatar avatar={image} />;
       },
     },
     {

@@ -16,7 +16,7 @@ export function useLogin() {
 export function useLogout() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async () => signOut(),
+    mutationFn: () => signOut({ redirect: false }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["account"] });
     },

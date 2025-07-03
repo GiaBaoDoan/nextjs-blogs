@@ -1,9 +1,14 @@
 import type { Metadata } from "next";
-import { Montserrat } from "next/font/google";
+import { Poppins } from "next/font/google";
 import "./globals.css";
 import AppLayout from "@/components/layout/AppLayout";
 
-const inter = Montserrat({ subsets: ["latin"] });
+export const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800"],
+  variable: "--font-poppins",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Tạp chí kiến thức và khoa học",
@@ -17,7 +22,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className}  antialiased`}>
+      <body className={`${poppins.className}  antialiased`}>
         <AppLayout>{children}</AppLayout>
       </body>
     </html>

@@ -15,7 +15,7 @@ const BlogHighLight = () => {
   return (
     <section className="flex items-center flex-col py-10">
       <article className="space-y-3">
-        <h2 className="text-center font-bold">Những bài viết nổi bật</h2>
+        <h2 className="text-center">Những bài viết nổi bật</h2>
         <p className="text-center text-muted-foreground max-w-xl mb-8 text-sm">
           Khám phá các bài viết chuyên sâu về thiết kế web, lập trình, công nghệ
           và những chia sẻ thực tế từ hành trình phát triển phần mềm.

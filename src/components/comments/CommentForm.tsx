@@ -57,8 +57,8 @@ export default function CommentForm({ blogId }: { blogId: string }) {
   }
 
   return (
-    <div className="py-10">
-      <h3 className="mb-10 font-bold">Để lại bình luận</h3>
+    <section className="py-10">
+      <h3 className="mb-10">Để lại bình luận</h3>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-7">
           <FormField
@@ -83,6 +83,6 @@ export default function CommentForm({ blogId }: { blogId: string }) {
           </Button>
         </form>
       </Form>
-    </div>
+    </section>
   );
 }

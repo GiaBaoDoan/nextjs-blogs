@@ -10,7 +10,7 @@ const PopularTags = () => {
   return (
     <section className="py-10 container  bg-indigo-50 rounded-2xl my-10">
       <article className="mx-auto max-w-xl">
-        <h2 className="mb-3 font-bold flex justify-center items-center gap-2">
+        <h2 className="mb-3 flex justify-center items-center gap-2">
           <Sparkles className="w-5 h-5 text-yellow-500" /> Những chủ đề hay
           <Sparkles className="w-5 h-5 text-yellow-500" />
         </h2>
@@ -24,9 +24,9 @@ const PopularTags = () => {
           <Link
             key={index}
             href={`/tags/${tag.slug}#`}
-            className="bg-blue-100 hover:bg-blue-200 text-blue-800 text-xs font-semibold me-2 px-2.5 py-0.5 rounded-sm dark:bg-gray-700 dark:text-blue-400 border border-blue-400 inline-flex items-center justify-center"
+            className="bg-blue-100 hover:bg-blue-200 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-gray-700 dark:text-blue-400 border border-blue-400 inline-flex items-center justify-center"
           >
-            # {tag.name}
+            #{tag.name}
           </Link>
         ))}
       </div>

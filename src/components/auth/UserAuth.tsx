@@ -26,17 +26,7 @@ const UserAuth = () => {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <button>
-          {data?.data.image ? (
-            <Image
-              src={data?.data.image}
-              alt="avatar"
-              width={100}
-              height={100}
-              className="rounded-full w-10 h-10 object-cover"
-            />
-          ) : (
-            <UserAvatar />
-          )}
+          <UserAvatar avatar={data.data.image} />
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">

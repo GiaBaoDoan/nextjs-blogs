@@ -5,9 +5,11 @@ import { Blog } from "@/types/blog.type";
 import { MessageSquare } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { format } from "date-fns";
+import { useFetchCommentList } from "@/hooks/useComments";
 
 const BlogCard = ({ blog }: { blog: Blog }) => {
   const router = useRouter();
+  const { data: comments } = useFetchCommentList(blog._id);
   return (
     <div
       className="cursor-pointer"
@@ -24,7 +26,7 @@ const BlogCard = ({ blog }: { blog: Blog }) => {
         {blog.category.name}
       </span>
       <div className="space-y-2 mb-5">
-        <h4 className="font-semibold hover:text-blue-600 hover:underline transition-all">
+        <h4 className="font-medium hover:text-blue-600 hover:underline transition-all">
           {blog.title}
         </h4>
         <p className="text-sm text-muted-foreground line-clamp-2">
@@ -37,7 +39,7 @@ const BlogCard = ({ blog }: { blog: Blog }) => {
         </div>
 
         <div className="flex items-center gap-1">
-          <MessageSquare size={15} /> <span>0</span>
+          <MessageSquare size={15} /> <span>{comments?.data?.length}</span>
         </div>
       </div>
     </div>
