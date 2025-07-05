@@ -30,3 +30,14 @@ export function useDeleteComment() {
     },
   });
 }
+
+export function useUpdateComment(blogId: string) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, data }: { data: CommentType; id: string }) =>
+      commentApi.updateComment(blogId, id, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["comments"] });
+    },
+  });
+}

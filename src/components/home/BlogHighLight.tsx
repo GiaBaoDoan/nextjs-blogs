@@ -7,6 +7,7 @@ import ButtonPrimary from "@/components/ui/button-primary";
 import { Blog } from "@/types/blog.type";
 import { usePosts } from "@/hooks/useBlogs";
 import { BlogSkeletonCard } from "@/components/blogs/BlogSkeleton";
+import { Button } from "@/components/ui/button";
 
 const BlogHighLight = () => {
   const { queries } = useQuery({ page: 1, limit: 6 });
@@ -27,8 +28,8 @@ const BlogHighLight = () => {
       ) : (
         <BlogList blogs={blogs?.data as Blog[]} />
       )}
-      <ButtonPrimary className="mt-10 bg-indigo-700" link="/blogs">
-        Đọc bài viết{" "}
+      <Button variant="primary">
+        Đọc bài viết
         <svg
           className="w-5 h-5 ml-2 -mr-1"
           fill="currentColor"
@@ -41,7 +42,7 @@ const BlogHighLight = () => {
             clipRule="evenodd"
           ></path>
         </svg>
-      </ButtonPrimary>
+      </Button>
     </section>
   );
 };

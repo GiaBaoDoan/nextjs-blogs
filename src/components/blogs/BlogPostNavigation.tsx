@@ -36,7 +36,7 @@ export default function BlogPostNavigation() {
           </div>
           <Link
             href={`/blogs/${prev.slug}`}
-            className="underline text-blue-700 line-clamp-2 text-sm"
+            className="underline text-indigo-600 line-clamp-2 text-sm"
           >
             {prev.title}
           </Link>
@@ -53,7 +53,7 @@ export default function BlogPostNavigation() {
           </div>
           <Link
             href={`/blogs/${next.slug}`}
-            className="underline text-blue-700 line-clamp-2 text-sm"
+            className="underline text-indigo-600 line-clamp-2 text-sm"
           >
             {next.title}
           </Link>

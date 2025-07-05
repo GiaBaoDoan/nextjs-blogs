@@ -8,7 +8,6 @@ import { DataTable } from "@/components/ui/data-table";
 import { useDeleteUser, useUsers } from "@/hooks/useUsers";
 
 import Action from "@/components/ui/action";
-import Image from "next/image";
 import UserAvatar from "@/components/users/UserAvatar";
 import SuccessToast from "@/components/custom/SuccessToast";
 

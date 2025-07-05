@@ -4,13 +4,13 @@ const UserAvatar = ({ avatar }: { avatar: string }) => {
   return avatar ? (
     <Image
       src={avatar}
-      className="w-10 h-10 rounded-full object-cover"
+      className="w-8 h-8 rounded-full object-cover"
       alt="Avatar người dùng"
       width={200}
       height={200}
     />
   ) : (
-    <span className="relative flex h-12 w-12 shrink-0 overflow-hidden rounded-full">
+    <span className="relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full">
       <span className="flex h-full w-full items-center justify-center rounded-full bg-sky-500">
         <svg
           stroke="currentColor"

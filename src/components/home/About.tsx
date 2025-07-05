@@ -1,5 +1,8 @@
 // components/AboutSection.tsx
 
+import { Button } from "@/components/ui/button";
+import ButtonPrimary from "@/components/ui/button-primary";
+import ButtonSecondary from "@/components/ui/button-secondary";
 import Image from "next/image";
 
 export default function About() {
@@ -87,8 +90,25 @@ export default function About() {
                   </dd>
                 </div>
               </dl>
+              <Button variant="primary">
+                Đọc bài viết
+                <svg
+                  className="w-5 h-5 ml-2 -mr-1"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+                    clipRule="evenodd"
+                  ></path>
+                </svg>
+              </Button>
+              <Button variant="secondary">Tham khảo thêm</Button>
             </div>
           </div>
+
           <Image
             src="https://tailwindcss.com/plus-assets/img/component-images/dark-project-app-screenshot.png"
             alt="Coding setup"

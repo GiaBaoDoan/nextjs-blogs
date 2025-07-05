@@ -2,117 +2,120 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { Mail, Facebook, Github, Linkedin } from "lucide-react";
+import Logo from "@/components/ui/logo";
+import { Button } from "@/components/ui/button";
 
-import logo from "@/public/logo.png";
-import facebook from "@/public/facebook.png";
-import zalo from "@/public/zalo.svg";
-import gmail from "@/public/gmail.png";
-
-const Footer = () => {
+export default function Footer() {
   return (
-    <footer className="bg-slate-50 border-t mt-10">
-      <div className="container py-8 grid grid-cols-1 md:grid-cols-3 gap-8">
-        {/* Giới thiệu nhanh */}
-        <div>
-          <Link href="/" className="flex items-center space-x-2 mb-2">
-            <Image
-              src={logo}
-              alt="logo"
-              width={40}
-              height={40}
-              className="rounded-md"
-            />
-          </Link>
-          <p className="text-sm">
-            <span className="font-bold underline">© 2025 Blog Dev.</span> Chia
-            sẻ kiến thức lập trình & dự án thực tế mỗi tuần. Viết bằng ❤️ và
-            caffeine. Cảm ơn bạn đã ghé thăm!
+    <footer className="bg-slate-100 text-gray-800 mt-20 border-t">
+      <div className="container mx-auto grid gap-5 py-20 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+        {/* brand */}
+        <div className="space-y-4">
+          <Logo />
+          <p className="text-sm leading-relaxed text-gray-600">
+            Blog cá nhân chia sẻ kiến thức lập trình Web, Next.js & hành trình
+            freelance. Viết bằng ❤️ & caffeine.
           </p>
         </div>
 
-        {/* Điều hướng */}
-        <div>
-          <h3 className="font-bold text-lg mb-2">Liên kết</h3>
-          <ul className="space-y-1 text-sm">
+        {/* nav */}
+        <div className="space-y-4">
+          <h3 className="text-base font-semibold uppercase tracking-wide text-gray-700">
+            Liên kết nhanh
+          </h3>
+          <ul className="space-y-2 text-sm">
             <li>
-              <Link className="hover:underline" href="/">
+              <Link href="/" className="transition hover:text-indigo-600">
                 Trang chủ
               </Link>
             </li>
             <li>
-              <Link className="hover:underline" href="/blogs">
+              <Link href="/blog" className="transition hover:text-indigo-600">
                 Bài viết
               </Link>
             </li>
             <li>
-              <Link className="hover:underline" href="/about">
+              <Link href="/#about" className="transition hover:text-indigo-600">
                 Giới thiệu
               </Link>
             </li>
             <li>
-              <Link className="hover:underline" href="/contact">
+              <Link
+                href="/#contact"
+                className="transition hover:text-indigo-600"
+              >
                 Liên hệ
               </Link>
             </li>
           </ul>
         </div>
-        <div>
-          <h3 className="font-bold text-lg mb-2">Liên hệ</h3>
-          <ul className="space-y-1 text-sm flex gap-3">
-            <li>
-              <a
-                href="https://github.com/yourname"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Image
-                  src={facebook}
-                  alt="logo"
-                  width={40}
-                  height={40}
-                  className="rounded-md"
-                />
-              </a>
-            </li>
-            <li>
-              <a
-                href="https://linkedin.com/in/yourname"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Image
-                  src={zalo}
-                  alt="logo"
-                  width={40}
-                  height={40}
-                  className="rounded-md"
-                />
-              </a>
-            </li>
-            <li>
-              <a
-                href="https://linkedin.com/in/yourname"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Image
-                  src={gmail}
-                  alt="logo"
-                  width={40}
-                  height={40}
-                  className="rounded-md"
-                />
-              </a>
-            </li>
-          </ul>
+
+        {/* contact */}
+        <div className="space-y-4">
+          <h3 className="text-base font-semibold uppercase tracking-wide text-gray-700">
+            Kết nối
+          </h3>
+          <div className="flex gap-3">
+            <Link
+              href="mailto:giabao@example.com"
+              aria-label="Email"
+              className="rounded-full bg-gray-200 p-2 hover:bg-gray-300 transition"
+            >
+              <Mail className="h-5 w-5 text-gray-700" />
+            </Link>
+            <Link
+              href="https://linkedin.com/in/yourusername"
+              aria-label="LinkedIn"
+              target="_blank"
+              className="rounded-full bg-gray-200 p-2 hover:bg-gray-300 transition"
+            >
+              <Linkedin className="h-5 w-5 text-gray-700" />
+            </Link>
+            <Link
+              href="https://facebook.com"
+              target="_blank"
+              aria-label="Facebook"
+              className="rounded-full bg-gray-200 p-2 hover:bg-gray-300 transition"
+            >
+              <Facebook className="h-5 w-5 text-gray-700" />
+            </Link>
+            <Link
+              href="https://github.com/yourusername"
+              target="_blank"
+              aria-label="Github"
+              className="rounded-full bg-gray-200 p-2 hover:bg-gray-300 transition"
+            >
+              <Github className="h-5 w-5 text-gray-700" />
+            </Link>
+          </div>
+        </div>
+
+        {/* newsletter */}
+        <div className="lg:col-span-1 sm:col-span-2 space-y-4">
+          <h3 className="text-base font-semibold uppercase tracking-wide text-gray-700">
+            Theo dõi bài viết mới
+          </h3>
+          <form
+            onSubmit={(e) => e.preventDefault()}
+            className="flex flex-col sm:flex-row items-center gap-3 max-w-xl"
+          >
+            <input
+              type="email"
+              placeholder="Email"
+              required
+              className="bg-white w-full flex-1 rounded-md border border-gray-300 px-4 py-3 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            />
+            <Button size="lg" variant="primary">
+              Đăng ký
+            </Button>
+          </form>
         </div>
       </div>
 
-      <div className="border-t text-center text-sm py-4">
-        © {new Date().getFullYear()} Đoàn Gia Bảo. All rights reserved.
+      <div className="border-t border-gray-300 py-4 text-center text-sm text-gray-500">
+        © {new Date().getFullYear()} Gia Bảo. All rights reserved.
       </div>
     </footer>
   );
-};
-
-export default Footer;
+}

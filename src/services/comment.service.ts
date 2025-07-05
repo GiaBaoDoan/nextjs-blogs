@@ -27,3 +27,12 @@ export const deleteComment = async (blogId: string, id: string) => {
   const res = await configAxios.delete<Response>(`/comment/${blogId}/${id}`);
   return res.data;
 };
+
+export const updateComment = async (
+  blogId: string,
+  id: string,
+  data: CommentType
+) => {
+  const res = await configAxios.put<Response>(`/comment/${blogId}/${id}`, data);
+  return res.data;
+};

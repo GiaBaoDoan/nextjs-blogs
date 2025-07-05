@@ -5,7 +5,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/options";
 import { withErrorHandler } from "@/lib/errorHandler";
-import { getSession } from "next-auth/react";
 
 // Cập nhật trạng thái like/not-like cho bài viết
 async function putHandler(
@@ -29,8 +28,6 @@ async function putHandler(
   if (!deleted) {
     await BlogLike.create({ blog: blogId, user: userId });
   }
-
-  console.log(deleted);
 
   return NextResponse.json(
     { message: "Bạn đã thích bài viết" },

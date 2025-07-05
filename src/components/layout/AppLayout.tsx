@@ -1,48 +1,39 @@
 "use client";
 
-import AdminNavbar from "@/components/layout/AdminNavbar";
-import ClientNavbar from "@/components/layout/ClientNavbar";
-import Footer from "@/components/layout/Footer";
-import Logo from "@/components/ui/logo";
-import React from "react";
-
-import { usePathname } from "next/navigation";
-import { SessionProvider } from "next-auth/react";
-import { Toaster } from "@/components/ui/sonner";
-import UserAuth from "@/components/auth/UserAuth";
 import ReactQueryProvider from "@/components/provider/QueryClientProvider";
+import Footer from "@/components/layout/Footer";
+import ClientNavbar from "@/components/layout/ClientNavbar";
 
-const AppLayout = ({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) => {
+import { ThemeProvider } from "next-themes";
+import { SessionProvider } from "next-auth/react";
+import { Toaster } from "@/components/ui/sonner"; //
+import { usePathname } from "next/navigation";
+import BacktoTop from "@/components/ui/BacktoTop";
+
+const AUTH_PATHS = ["/login", "/register", "/forgot-password"];
+const ADMIN_PREFIX = "/admin";
+
+export default function AppLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const isAdminPath = pathname.startsWith("/admin");
-  const isAuthPath = pathname.startsWith("/auth");
+  const isAuthPath = AUTH_PATHS.some((p) => pathname?.startsWith(p));
+  const isAdminPath = pathname?.startsWith(ADMIN_PREFIX);
 
   return (
     <ReactQueryProvider>
-      <SessionProvider>
-        {!isAuthPath && (
-          <div className="sticky top-0 z-10">
-            <div className="border-b bg-white">
-              <div className="container flex items-center justify-between">
-                <div className="flex gap-5">
-                  <Logo />
-                  {isAdminPath ? <AdminNavbar /> : <ClientNavbar />}
-                </div>
-                <UserAuth />
-              </div>
-            </div>
-          </div>
-        )}
-        {children}
-        <Toaster />
-        {!isAuthPath ? !isAdminPath && <Footer /> : ""}
-      </SessionProvider>
+      <ThemeProvider
+        attribute="class"
+        defaultTheme="system"
+        enableSystem
+        disableTransitionOnChange
+      >
+        <SessionProvider>
+          {!isAuthPath && <ClientNavbar />}
+          {children}
+          <Toaster />
+          <BacktoTop />
+          {!isAuthPath && !isAdminPath && <Footer />}
+        </SessionProvider>
+      </ThemeProvider>
     </ReactQueryProvider>
   );
-};
-
-export default AppLayout;
+}

@@ -18,6 +18,7 @@ import {
 
 // LikeButton của bạn (giữ nguyên)
 import LikeButton from "./LikeButton";
+import { useFetchCommentList } from "@/hooks/useComments";
 
 type Props = {
   postId: string;
@@ -25,6 +26,8 @@ type Props = {
 };
 
 export default function PostActionBar({ postId, className }: Props) {
+  const { data: comments } = useFetchCommentList(postId);
+
   return (
     <div>
       <aside
@@ -36,8 +39,8 @@ export default function PostActionBar({ postId, className }: Props) {
           <ActionTooltip label="Bình luận">
             <Button
               variant="ghost"
-              size="icon"
-              className="text-muted-foreground hover:text-primary"
+              size="sm"
+              className="text-muted-foreground hover:text-primary flex gap-1 items-center"
               onClick={() => {
                 document.getElementById("comments")?.scrollIntoView({
                   behavior: "smooth",
@@ -45,6 +48,7 @@ export default function PostActionBar({ postId, className }: Props) {
               }}
             >
               <MessageCircle className="h-5 w-5" />
+              <span className="text-xs">{comments?.data?.length}</span>
             </Button>
           </ActionTooltip>
 

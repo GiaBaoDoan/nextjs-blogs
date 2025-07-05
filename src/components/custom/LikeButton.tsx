@@ -12,8 +12,6 @@ export default function LikeButton({ postId }: { postId: string }) {
   const liked = data?.data?.liked;
   const likes = data?.data?.likes;
 
-  console.log(data?.data);
-
   const { mutate, isPending } = useUpdateLike(postId);
 
   const updateStatus = () => {
@@ -29,10 +27,8 @@ export default function LikeButton({ postId }: { postId: string }) {
       disabled={isPending}
       onClick={updateStatus}
       className={cn(
-        "flex items-center gap-1 transition",
-        liked
-          ? "text-red-600 font-semibold"
-          : "text-muted-foreground hover:text-red-500"
+        "flex items-center gap-1 transition text-xs",
+        liked ? "text-red-600" : "text-muted-foreground hover:text-red-500"
       )}
     >
       <Heart

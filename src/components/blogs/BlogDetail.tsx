@@ -8,10 +8,10 @@ import { Blog } from "@/types/blog.type";
 import Breadcrumbs from "@/components/ui/breadcumb-links";
 import RelatedBlogs from "@/components/blogs/RelatedBlogs";
 import CommentList from "@/components/comments/CommentList";
-import CommentForm from "@/components/comments/CommentForm";
 import BlogByTags from "@/components/blogs/BlogByTags";
 import BlogArticle from "@/components/blogs/BlogArticle";
 import PostActionBar from "@/components/custom/StickyActionBar";
+import CommentCreateForm from "@/components/comments/CommentCreateForm";
 
 const BlogDetail = () => {
   const { slug } = useParams();
@@ -22,7 +22,7 @@ const BlogDetail = () => {
   if (isLoading) return <BlogDetailSkeleton />;
 
   return (
-    <main className="container my-10 space-y-16">
+    <main className="container my-5 space-y-16">
       <div className="flex flex-col lg:flex-row gap-10">
         {/* ActionBar trái (chỉ hiển thị ở màn hình lớn) */}
         <aside className="hidden lg:block sticky top-20 h-fit">
@@ -39,10 +39,8 @@ const BlogDetail = () => {
           />
 
           <BlogArticle blog={blog as Blog} />
-
-          {/* Nội dung bài viết */}
           <article
-            className="max-w-none space-y-7 leading-10 text-base text-muted-foreground"
+            className="max-w-none space-y-7 leading-10"
             dangerouslySetInnerHTML={{ __html: blog?.content || "" }}
           />
         </div>
@@ -51,8 +49,8 @@ const BlogDetail = () => {
       {/* Phần dưới bài viết */}
       <div className="mx-auto max-w-3xl space-y-10">
         <BlogByTags blog={blog as Blog} />
-        <CommentList blogId={blog?._id as string} />
-        <CommentForm blogId={blog?._id as string} />
+        <CommentList blogId={`${blog?._id}`} />
+        <CommentCreateForm blogId={`${blog?._id}`} />
       </div>
 
       <RelatedBlogs category={blog?.category._id as string} />
