@@ -15,7 +15,7 @@ export default function Header() {
   return (
     <header
       className={cn(
-        "sticky flex bg-white justify-between inset-x-0 top-0 z-50 transition-all duration-300 backdrop-blur border-b",
+        "sticky flex bg-white justify-between inset-x-0 top-0 shadow z-50 transition-all duration-300 backdrop-blur border-b",
         scrolled ? "-translate-y-full" : "translate-y-0"
       )}
     >

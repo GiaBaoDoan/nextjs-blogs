@@ -12,36 +12,28 @@ import { Button } from "@/components/ui/button";
  */
 export default function Test() {
   return (
-    <section className="relative isolate overflow-hidden bg-gradient-to-b from-white to-gray-50 dark:from-gray-950 dark:to-gray-900">
-      {/* Background glow */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 -z-10 flex justify-center"
-      >
-        <div className="aspect-square w-[60rem] rounded-full bg-gradient-to-tr from-indigo-400/30 via-purple-400/20 to-pink-400/30 blur-3xl" />
-      </div>
-
-      <div className="mx-auto flex max-w-7xl flex-col-reverse items-center gap-12 px-4 py-28 md:flex-row md:gap-20 md:py-36 lg:px-8">
+    <section className="bg-white dark:bg-gray-950">
+      <div className="mx-auto flex max-w-7xl flex-col-reverse items-center gap-12 px-4 py-24 md:flex-row md:gap-20 lg:px-8">
         {/* Text */}
         <div className="max-w-xl text-center md:text-left">
           <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 dark:text-gray-100 sm:text-5xl lg:text-6xl">
-            <span className="bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">
-              Xin chào, mình là Bảo 👋
-            </span>
+            Xin chào, mình là{" "}
+            <span className="text-indigo-600 dark:text-indigo-400">Bảo</span> 👋
           </h1>
-          <p className="mt-6 text-lg text-gray-600 dark:text-gray-400 max-w-lg">
+
+          <p className="mt-6 max-w-lg text-lg text-gray-600 dark:text-gray-400">
             Đây là <span className="font-semibold">blog cá nhân</span> nơi mình
-            chia sẻ về lập trình web, kinh nghiệm freelance và những điều mình
+            chia sẻ về lập trình web, kinh nghiệm freelance và những điều mình
             học được trên hành trình code mỗi ngày.
           </p>
 
           <div className="mt-8 flex flex-col items-center gap-4 sm:flex-row md:items-start">
             <Button asChild size="lg" className="w-full sm:w-auto">
               <Link href="/blog" className="flex items-center gap-2">
-                Xem bài viết mới
-                <ArrowRight className="h-4 w-4" />
+                Xem bài viết mới <ArrowRight className="h-4 w-4" />
               </Link>
             </Button>
+
             <Button
               variant="secondary"
               asChild
@@ -49,8 +41,7 @@ export default function Test() {
               className="w-full sm:w-auto"
             >
               <Link href="/lien-he" className="flex items-center gap-2">
-                Liên hệ mình
-                <Mail className="h-4 w-4" />
+                Liên hệ mình <Mail className="h-4 w-4" />
               </Link>
             </Button>
           </div>
@@ -64,7 +55,7 @@ export default function Test() {
             width={600}
             height={450}
             priority
-            className="h-[600px] w-[450px] rounded-3xl select-none transition-transform duration-300 hover:scale-105"
+            className="h-[600px] w-[450px] rounded-3xl select-none transition-transform duration-300 hover:scale-105 shadow-lg"
           />
         </div>
       </div>

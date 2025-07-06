@@ -6,6 +6,7 @@ import { MessageSquare } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { format } from "date-fns";
 import { useFetchCommentList } from "@/hooks/useComments";
+import { Badge } from "@/components/ui/badge";
 
 const BlogCard = ({ blog }: { blog: Blog }) => {
   const router = useRouter();
@@ -22,11 +23,11 @@ const BlogCard = ({ blog }: { blog: Blog }) => {
         height={200}
         className="w-full h-48 object-cover rounded-lg mb-4"
       />
-      <span className="inline-flex mb-4 items-center rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-blue-700/10 ring-inset">
+      <Badge className="mb-3" variant="primary">
         {blog.category.name}
-      </span>
+      </Badge>
       <div className="space-y-2 mb-5">
-        <h4 className="font-medium hover:text-blue-600 hover:underline transition-all">
+        <h4 className="font-medium hover:text-indigo-600 hover:underline transition-all">
           {blog.title}
         </h4>
         <p className="text-sm text-muted-foreground line-clamp-2">

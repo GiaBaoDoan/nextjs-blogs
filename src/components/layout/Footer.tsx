@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Mail, Facebook, Github, Linkedin } from "lucide-react";
 import Logo from "@/components/ui/logo";
 import { Button } from "@/components/ui/button";
+import { Input } from "../ui/input";
 
 export default function Footer() {
   return (
@@ -98,17 +99,15 @@ export default function Footer() {
           </h3>
           <form
             onSubmit={(e) => e.preventDefault()}
-            className="flex flex-col sm:flex-row items-center gap-3 max-w-xl"
+            className="flex flex-col sm:flex-row items-center gap-3"
           >
-            <input
+            <Input
               type="email"
               placeholder="Email"
               required
               className="bg-white w-full flex-1 rounded-md border border-gray-300 px-4 py-3 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
             />
-            <Button size="lg" variant="primary">
-              Đăng ký
-            </Button>
+            <Button variant="primary">Đăng ký</Button>
           </form>
         </div>
       </div>

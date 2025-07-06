@@ -61,7 +61,7 @@ const CommentEditForm = ({
     if (content) {
       form.reset({ content });
     }
-  }, [content, blogId]);
+  }, [content, blogId, form]);
 
   return (
     <Form {...form}>

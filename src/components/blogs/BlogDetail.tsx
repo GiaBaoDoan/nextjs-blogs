@@ -40,7 +40,7 @@ const BlogDetail = () => {
 
           <BlogArticle blog={blog as Blog} />
           <article
-            className="max-w-none space-y-7 leading-10"
+            className="max-w-none space-y-7 leading-10 font-normal"
             dangerouslySetInnerHTML={{ __html: blog?.content || "" }}
           />
         </div>

@@ -28,7 +28,7 @@ const BlogHighLight = () => {
       ) : (
         <BlogList blogs={blogs?.data as Blog[]} />
       )}
-      <Button variant="primary">
+      <Button size="lg" variant="primary" className="mt-5">
         Đọc bài viết
         <svg
           className="w-5 h-5 ml-2 -mr-1"

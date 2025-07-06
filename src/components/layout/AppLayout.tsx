@@ -9,6 +9,7 @@ import { SessionProvider } from "next-auth/react";
 import { Toaster } from "@/components/ui/sonner"; //
 import { usePathname } from "next/navigation";
 import BacktoTop from "@/components/ui/BacktoTop";
+import AdminNavbar from "@/components/layout/AdminNavbar";
 
 const AUTH_PATHS = ["/login", "/register", "/forgot-password"];
 const ADMIN_PREFIX = "/admin";
@@ -27,7 +28,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         disableTransitionOnChange
       >
         <SessionProvider>
-          {!isAuthPath && <ClientNavbar />}
+          {!isAuthPath ? <ClientNavbar /> : <AdminNavbar />}
           {children}
           <Toaster />
           <BacktoTop />

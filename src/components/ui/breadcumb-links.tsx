@@ -41,7 +41,9 @@ export default function Breadcrumbs({ items }: Props) {
               {item.href ? (
                 <BreadcrumbLink href={item.href}>{item.label}</BreadcrumbLink>
               ) : (
-                <BreadcrumbPage>{item.label}</BreadcrumbPage>
+                <BreadcrumbPage className="text-indigo-600 font-medium">
+                  {item.label}
+                </BreadcrumbPage>
               )}
             </BreadcrumbItem>
           </Fragment>
