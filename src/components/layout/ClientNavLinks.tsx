@@ -1,15 +1,16 @@
+import Link from "next/link";
+
 import {
   NavigationMenu,
   NavigationMenuItem,
   NavigationMenuList,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
+
 import { navLinks } from "@/constants/links";
 import { cn } from "@/lib/utils";
 
-import Link from "next/link";
-
-const NavLinks = () => {
+const ClientNavLinks = () => {
   return (
     <NavigationMenu className="hidden md:block">
       <NavigationMenuList className="gap-4">
@@ -31,4 +32,4 @@ const NavLinks = () => {
   );
 };
 
-export default NavLinks;
+export default ClientNavLinks;

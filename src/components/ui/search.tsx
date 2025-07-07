@@ -21,10 +21,8 @@ export function SearchInput({
   const debouncedValue = useDebounce(rawValue, debounce);
 
   useEffect(() => {
-    if (onChange) {
-      onChange({ keyword: debouncedValue, page: 1 });
-    }
-  }, [debouncedValue, onChange]);
+    onChange({ keyword: debouncedValue, page: 1 });
+  }, [debouncedValue]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setRawValue(e.target.value);

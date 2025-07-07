@@ -12,51 +12,58 @@ import { Button } from "@/components/ui/button";
  */
 export default function Test() {
   return (
-    <section className="bg-white dark:bg-gray-950">
-      <div className="mx-auto flex max-w-7xl flex-col-reverse items-center gap-12 px-4 py-24 md:flex-row md:gap-20 lg:px-8">
-        {/* Text */}
-        <div className="max-w-xl text-center md:text-left">
-          <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 dark:text-gray-100 sm:text-5xl lg:text-6xl">
-            Xin chào, mình là{" "}
-            <span className="text-indigo-600 dark:text-indigo-400">Bảo</span> 👋
+    <section className="relative isolate overflow-hidden bg-gray-950 py-24 sm:py-32 text-white">
+      {/* Vùng glow nền */}
+      <div
+        aria-hidden
+        className="absolute inset-0 -z-10 flex justify-center opacity-30"
+      >
+        <div className="aspect-square w-[50rem] bg-gradient-to-tr from-indigo-500 blur-3xl rounded-full" />
+      </div>
+
+      <div className="container mx-auto px-4 flex flex-col-reverse md:flex-row items-center justify-between gap-16">
+        {/* Text content */}
+        <div className="max-w-xl text-center md:text-left space-y-6">
+          <h1 className="text-4xl sm:text-5xl font-extrabold leading-tight">
+            Biến <span className="text-indigo-400">ý tưởng</span> thành sản phẩm
+            thực tế
           </h1>
-
-          <p className="mt-6 max-w-lg text-lg text-gray-600 dark:text-gray-400">
-            Đây là <span className="font-semibold">blog cá nhân</span> nơi mình
-            chia sẻ về lập trình web, kinh nghiệm freelance và những điều mình
-            học được trên hành trình code mỗi ngày.
+          <p className="text-gray-300 text-lg">
+            Mình là <span className="text-white font-medium">Bảo</span>, lập
+            trình viên web & chia sẻ kinh nghiệm học tập, freelance, và xây dựng
+            sản phẩm.
           </p>
-
-          <div className="mt-8 flex flex-col items-center gap-4 sm:flex-row md:items-start">
-            <Button asChild size="lg" className="w-full sm:w-auto">
-              <Link href="/blog" className="flex items-center gap-2">
-                Xem bài viết mới <ArrowRight className="h-4 w-4" />
-              </Link>
-            </Button>
-
-            <Button
-              variant="secondary"
-              asChild
-              size="lg"
-              className="w-full sm:w-auto"
+          <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+            <a
+              href="/blog"
+              className="inline-flex items-center justify-center rounded-md bg-indigo-600 px-5 py-3 text-sm font-medium hover:bg-indigo-700 transition"
             >
-              <Link href="/lien-he" className="flex items-center gap-2">
-                Liên hệ mình <Mail className="h-4 w-4" />
-              </Link>
-            </Button>
+              Xem bài viết
+            </a>
+            <a
+              href="/lien-he"
+              className="inline-flex items-center justify-center rounded-md border border-white/20 px-5 py-3 text-sm font-medium hover:bg-white/10 transition"
+            >
+              Liên hệ mình
+            </a>
           </div>
         </div>
 
-        {/* Illustration */}
-        <div className="relative w-full max-w-sm md:max-w-md lg:max-w-lg">
-          <Image
-            src={Avatar}
-            alt="Coding on laptop illustration"
-            width={600}
-            height={450}
-            priority
-            className="h-[600px] w-[450px] rounded-3xl select-none transition-transform duration-300 hover:scale-105 shadow-lg"
-          />
+        {/* Visual cards */}
+        <div className="grid grid-cols-2 gap-4 max-w-md w-full">
+          {[
+            "Tôi cần làm Website cá nhân",
+            "Tôi muốn phát triển MVP",
+            "Tôi cần người hướng dẫn",
+            "Tôi đang học lập trình",
+          ].map((text, i) => (
+            <div
+              key={i}
+              className="bg-white/5 rounded-xl p-6 text-sm font-semibold text-center backdrop-blur-md border border-white/10 hover:scale-105 transition-transform"
+            >
+              {text}
+            </div>
+          ))}
         </div>
       </div>
     </section>

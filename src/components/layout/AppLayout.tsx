@@ -2,17 +2,14 @@
 
 import ReactQueryProvider from "@/components/provider/QueryClientProvider";
 import Footer from "@/components/layout/Footer";
-import ClientNavbar from "@/components/layout/ClientNavbar";
+import BacktoTop from "@/components/ui/BacktoTop";
+import Navbar from "@/components/layout/Navbar";
 
 import { ThemeProvider } from "next-themes";
 import { SessionProvider } from "next-auth/react";
 import { Toaster } from "@/components/ui/sonner"; //
 import { usePathname } from "next/navigation";
-import BacktoTop from "@/components/ui/BacktoTop";
-import AdminNavbar from "@/components/layout/AdminNavbar";
-
-const AUTH_PATHS = ["/login", "/register", "/forgot-password"];
-const ADMIN_PREFIX = "/admin";
+import { ADMIN_PREFIX, AUTH_PATHS } from "@/constants/path";
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -28,7 +25,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         disableTransitionOnChange
       >
         <SessionProvider>
-          {!isAuthPath ? <ClientNavbar /> : <AdminNavbar />}
+          <Navbar />
           {children}
           <Toaster />
           <BacktoTop />

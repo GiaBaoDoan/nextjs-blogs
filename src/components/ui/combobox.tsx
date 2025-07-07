@@ -53,7 +53,7 @@ export function MultiSelectCombobox({
           role="combobox"
           aria-expanded={open}
           className={cn(
-            "flex",
+            "flex h-auto",
             selectedLabels.length > 0 ? "justify-between" : "justify-end"
           )}
         >
@@ -61,7 +61,7 @@ export function MultiSelectCombobox({
             <div className="flex flex-wrap gap-1">
               {selectedLabels.map((name) => (
                 <Badge variant="secondary" key={name}>
-                  {name}
+                  #{name}
                 </Badge>
               ))}
             </div>

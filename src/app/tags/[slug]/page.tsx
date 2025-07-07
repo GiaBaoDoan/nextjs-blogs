@@ -29,9 +29,7 @@ const TagDetailPage = () => {
     <section className="container py-10">
       <Breadcrumbs
         items={[
-          {
-            label: "blog",
-          },
+          { label: "blog", href: "/blogs" },
           {
             label: `Tag: ${tag?.data?.name || ""}`,
           },

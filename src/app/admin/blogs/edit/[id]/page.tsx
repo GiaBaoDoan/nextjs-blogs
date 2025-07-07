@@ -11,7 +11,7 @@ import { useMemo } from "react";
 const BlogEditPage = () => {
   const { id } = useParams();
 
-  const { mutate } = useUpdatePost(id as string);
+  const { mutate, isPending } = useUpdatePost(id as string);
 
   const onSubmit = (data: BlogSchemaType) => {
     mutate(data, {
@@ -35,7 +35,7 @@ const BlogEditPage = () => {
     <div className="container">
       <Back text="Edit bài viết" />
       <BlogForm
-        isSubmiting={false}
+        isSubmiting={isPending}
         blog={newBlog as BlogSchemaType}
         onSubmit={onSubmit}
       />

@@ -155,7 +155,6 @@ export default function ContactForm() {
           type="submit"
           variant="primary"
           disabled={form.formState.isSubmitting}
-          className="p-7 flex justify-end"
           size="lg"
         >
           {form.formState.isSubmitting ? (

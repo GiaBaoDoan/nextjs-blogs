@@ -1,6 +1,6 @@
 "use client";
 
-import * as React from "react";
+import Link from "next/link";
 
 import {
   NavigationMenu,
@@ -13,23 +13,22 @@ import {
 
 import { adminLinks } from "@/constants/links";
 import { ListItem } from "@/components/ui/ListItem";
-import Link from "next/link";
 
-export default function AdminNavbar() {
+export default function AdminNavLinks() {
   return (
     <NavigationMenu>
-      <NavigationMenuList>
+      <NavigationMenuList className="flex items-center gap-2">
         {adminLinks.map((nav, index) => (
           <NavigationMenuItem key={index}>
             <NavigationMenuTrigger>{nav.label}</NavigationMenuTrigger>
             <NavigationMenuContent>
-              <ul className="w-[150px]">
-                {nav.links.map((component, index) => (
+              <ul className="w-[160px]">
+                {nav.links.map((component, idx) => (
                   <ListItem
-                    key={index}
+                    key={idx}
                     title={component.link_text}
                     href={`/admin/${component.href}`}
-                  ></ListItem>
+                  />
                 ))}
               </ul>
             </NavigationMenuContent>

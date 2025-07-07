@@ -3,14 +3,19 @@
 import UserAuth from "@/components/auth/UserAuth";
 import Logo from "@/components/ui/logo";
 import HamburgerMenu from "@/components/layout/HamburgerMenu ";
-import NavLinks from "@/components/layout/NavLinks";
+import AdminNavLinks from "@/components/layout/AdminNavLinks";
+import ClientNavLinks from "@/components/layout/ClientNavLinks";
 
-import { ModeToggle } from "@/components/ui/ThemeColorMode";
 import { cn } from "@/lib/utils";
 import { useHeaderHidden } from "@/hooks/useHeader";
+import { usePathname } from "next/navigation";
+import { ADMIN_PREFIX } from "@/constants/path";
 
-export default function Header() {
+export default function Navbar() {
   const scrolled = useHeaderHidden();
+  const pathname = usePathname();
+
+  const isAdminPath = pathname?.startsWith(ADMIN_PREFIX);
 
   return (
     <header
@@ -21,10 +26,9 @@ export default function Header() {
     >
       <div className="flex items-center w-full justify-between container">
         <Logo />
-        <NavLinks />
+        {isAdminPath ? <AdminNavLinks /> : <ClientNavLinks />}
         <div className="flex items-center gap-3">
           <UserAuth />
-          <ModeToggle />
           <HamburgerMenu />
         </div>
       </div>

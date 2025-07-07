@@ -11,7 +11,7 @@ const BlogByTags = ({ blog }: { blog: Blog }) => {
           <span className="font-semibold">Tags bài viết:</span>
           {blog?.tags.map((tag, index) => (
             <Link key={index} href={`/tags/${tag.slug}`}>
-              <Badge variant="outline" className="hover:opacity-60">
+              <Badge variant="primary" className="hover:opacity-60">
                 #{tag.name}
               </Badge>
             </Link>

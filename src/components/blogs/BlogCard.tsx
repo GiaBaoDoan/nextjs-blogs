@@ -2,15 +2,18 @@
 
 import Image from "next/image";
 import { Blog } from "@/types/blog.type";
-import { MessageSquare } from "lucide-react";
+import { Heart, MessageCircle, MessageSquare } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { format } from "date-fns";
 import { useFetchCommentList } from "@/hooks/useComments";
 import { Badge } from "@/components/ui/badge";
+import { useFetchLikeList } from "@/hooks/useLikePost";
+import { cn } from "@/lib/utils";
 
 const BlogCard = ({ blog }: { blog: Blog }) => {
   const router = useRouter();
   const { data: comments } = useFetchCommentList(blog._id);
+  const { data: likes } = useFetchLikeList(blog._id);
   return (
     <div
       className="cursor-pointer"
@@ -35,12 +38,16 @@ const BlogCard = ({ blog }: { blog: Blog }) => {
         </p>
       </div>
       <div className="text-xs text-muted-foreground flex items-center gap-3">
-        <div className="border-r pr-3">
+        <p className="border-r pr-3">
           {format(new Date(blog.createdAt), "dd/MM/yyyy hh:mm:ss")}
-        </div>
+        </p>
 
+        <div className="flex items-center gap-1 border-r pr-3">
+          <MessageCircle size={15} /> <span>{comments?.data?.length || 0}</span>
+        </div>
         <div className="flex items-center gap-1">
-          <MessageSquare size={15} /> <span>{comments?.data?.length}</span>
+          <Heart size="15" />
+          <span>{likes?.data?.likes || 0}</span>
         </div>
       </div>
     </div>
