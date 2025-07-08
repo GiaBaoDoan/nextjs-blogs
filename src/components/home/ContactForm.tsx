@@ -74,7 +74,7 @@ export default function ContactForm() {
               <FormControl>
                 <Input
                   {...field}
-                  placeholder="Tên của bạn"
+                  placeholder="Họ và tên"
                   className="h-12 text-base"
                 />
               </FormControl>
@@ -95,7 +95,7 @@ export default function ContactForm() {
                   <Input
                     {...field}
                     type="email"
-                    placeholder="Email của bạn"
+                    placeholder="Email"
                     className="h-12 text-base"
                   />
                 </FormControl>

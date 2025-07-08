@@ -8,8 +8,6 @@ import { format } from "date-fns";
 import { useFetchCommentList } from "@/hooks/useComments";
 import { Badge } from "@/components/ui/badge";
 import { useFetchLikeList } from "@/hooks/useLikePost";
-import { cn } from "@/lib/utils";
-
 const BlogCard = ({ blog }: { blog: Blog }) => {
   const router = useRouter();
   const { data: comments } = useFetchCommentList(blog._id);
@@ -33,9 +31,7 @@ const BlogCard = ({ blog }: { blog: Blog }) => {
         <h4 className="font-medium hover:text-indigo-600 hover:underline transition-all">
           {blog.title}
         </h4>
-        <p className="text-sm text-muted-foreground line-clamp-2">
-          {blog.description}
-        </p>
+        <p className="text-muted-foreground line-clamp-2">{blog.description}</p>
       </div>
       <div className="text-xs text-muted-foreground flex items-center gap-3">
         <p className="border-r pr-3">

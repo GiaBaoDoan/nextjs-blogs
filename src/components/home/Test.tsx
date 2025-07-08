@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
  * Hero section without Framer Motion animations.
  * Simple, fast, and still visually appealing.
  */
-export default function Test() {
+export default function HeroSection() {
   return (
     <section className="relative isolate overflow-hidden bg-gray-950 py-24 sm:py-32 text-white">
       {/* Vùng glow nền */}

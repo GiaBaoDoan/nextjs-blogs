@@ -1,123 +1,140 @@
-// components/AboutSection.tsx
+"use client";
 
-import { Button } from "@/components/ui/button";
-import ButtonPrimary from "@/components/ui/button-primary";
-import ButtonSecondary from "@/components/ui/button-secondary";
+import { Facebook, Github, Linkedin, Mail } from "lucide-react";
+
+import Avatar from "@/public/male-face-avatar-icon-set-flat-design-social-media-profiles_1281173-3806.webp";
 import Image from "next/image";
+import Link from "next/link";
 
-export default function About() {
+export default function AboutSection() {
   return (
-    <div className="overflow-hidden bg-white py-24 sm:py-32">
-      <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <div className="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 sm:gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-2">
-          <div className="lg:pt-4 lg:pr-8">
-            <div className="lg:max-w-lg">
-              <h2 className="text-base font-semibold text-indigo-600">
-                Blog dành cho Dev mới vào nghề
-              </h2>
-              <p className="mt-2 text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
-                Ghi chép & chia sẻ hành trình học lập trình
-              </p>
-              <p className="mt-6 text-lg text-gray-600">
-                Đây là nơi mình lưu lại kiến thức, mẹo nhỏ và những bài học thực
-                tế trong quá trình học và làm web – từ JavaScript, Next.js đến
-                cả trải nghiệm cá nhân khi học code.
-              </p>
-              <dl className="mt-10 max-w-xl space-y-8 text-base text-gray-600 lg:max-w-none">
-                <div className="relative pl-9">
-                  <dt className="inline font-semibold text-gray-900">
-                    <svg
-                      className="absolute top-1 left-1 size-5 text-indigo-600"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                      aria-hidden="true"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M5.5 17a4.5 4.5 0 0 1-1.44-8.765 4.5 4.5 0 0 1 8.302-3.046 3.5 3.5 0 0 1 4.504 4.272A4 4 0 0 1 15 17H5.5Zm3.75-2.75a.75.75 0 0 0 1.5 0V9.66l1.95 2.1a.75.75 0 1 0 1.1-1.02l-3.25-3.5a.75.75 0 0 0-1.1 0l-3.25 3.5a.75.75 0 1 0 1.1 1.02l1.95-2.1v4.59Z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                    Bài viết thực tế, dễ hiểu.
-                  </dt>
-                  <dd className="inline">
-                    Mình cố gắng viết ngắn gọn, súc tích và tập trung vào các
-                    vấn đề mình từng gặp phải khi học và làm dự án thật.
-                  </dd>
-                </div>
-                <div className="relative pl-9">
-                  <dt className="inline font-semibold text-gray-900">
-                    <svg
-                      className="absolute top-1 left-1 size-5 text-indigo-600"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                      aria-hidden="true"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M10 1a4.5 4.5 0 0 0-4.5 4.5V9H5a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2h-.5V5.5A4.5 4.5 0 0 0 10 1Zm3 8V5.5a3 3 0 1 0-6 0V9h6Z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                    Chia sẻ hành trình học tập.
-                  </dt>
-                  <dd className="inline">
-                    Mỗi bài viết là một lần mình hiểu thêm về kiến thức, công cụ
-                    hay framework. Mình viết để nhớ, cũng để chia sẻ.
-                  </dd>
-                </div>
-                <div className="relative pl-9">
-                  <dt className="inline font-semibold text-gray-900">
-                    <svg
-                      className="absolute top-1 left-1 size-5 text-indigo-600"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                      aria-hidden="true"
-                    >
-                      <path d="M4.632 3.533A2 2 0 0 1 6.577 2h6.846a2 2 0 0 1 1.945 1.533l1.976 8.234A3.489 3.489 0 0 0 16 11.5H4c-.476 0-.93.095-1.344.267l1.976-8.234Z" />
-                      <path
-                        fillRule="evenodd"
-                        d="M4 13a2 2 0 1 0 0 4h12a2 2 0 1 0 0-4H4Zm11.24 2a.75.75 0 0 1 .75-.75H16a.75.75 0 0 1 .75.75v.01a.75.75 0 0 1-.75.75h-.01a.75.75 0 0 1-.75-.75V15Zm-2.25-.75a.75.75 0 0 0-.75.75v.01c0 .414.336.75.75.75H13a.75.75 0 0 0 .75-.75V15a.75.75 0 0 0-.75-.75h-.01Z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                    Dành cho bạn đang học code.
-                  </dt>
-                  <dd className="inline">
-                    Nếu bạn đang học Next.js, JavaScript hay tìm hướng đi trong
-                    ngành lập trình, bạn sẽ thấy bản thân mình trong những dòng
-                    này.
-                  </dd>
-                </div>
-              </dl>
-              <Button variant="primary">
-                Đọc bài viết
-                <svg
-                  className="w-5 h-5 ml-2 -mr-1"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
-                    clipRule="evenodd"
-                  ></path>
-                </svg>
-              </Button>
-              <Button variant="secondary">Tham khảo thêm</Button>
-            </div>
+    <section
+      id="about"
+      className="relative py-24 bg-gradient-to-br from-indigo-50 via-white to-indigo-100 dark:from-gray-900 dark:to-gray-800"
+    >
+      <div className="container mx-auto px-6 max-w-5xl">
+        {/* Intro Section */}
+        <div className="flex flex-col items-center text-center mb-16">
+          <Image
+            src={Avatar}
+            alt="Gia Bảo"
+            width={120}
+            height={120}
+            className="rounded-full border-4 border-indigo-500 shadow-lg"
+            priority
+          />
+          <h1 className="mt-6 text-4xl font-bold tracking-tight text-gray-900 dark:text-white">
+            Mình là{" "}
+            <span className="text-indigo-600 dark:text-indigo-400">
+              Gia Bảo
+            </span>
+          </h1>
+          <p className="mt-3 max-w-2xl text-muted-foreground">
+            Đây là blog cá nhân nơi mình ghi lại kiến thức lập trình, tổng hợp
+            từ nhiều nguồn và trải nghiệm thực tế trong quá trình học và làm.
+          </p>
+        </div>
+
+        {/* Info Grid */}
+        <div className="grid md:grid-cols-2 gap-10 text-left">
+          {/* Kỹ năng */}
+          <div className="bg-white/90 dark:bg-gray-800/70 rounded-xl p-6 shadow-md backdrop-blur-sm">
+            <h3 className="text-lg font-semibold mb-2 text-indigo-600">
+              💻 Tech Stack
+            </h3>
+            <ul className="list-disc list-inside  space-y-1">
+              <li>React / Next.js / TypeScript / Tailwind CSS</li>
+              <li>Node.js / Express / MongoDB / Prisma</li>
+              <li>Redux Toolkit, Zustand, React Hook Form, Zod</li>
+              <li>NextAuth, JWT, OAuth2, Cloudinary, Vercel, Render</li>
+            </ul>
           </div>
 
-          <Image
-            src="https://tailwindcss.com/plus-assets/img/component-images/dark-project-app-screenshot.png"
-            alt="Coding setup"
-            className="rounded-xl shadow-xl ring-1 ring-gray-400/10 sm:w-[40rem] md:-ml-4 lg:-ml-0"
-            width={800}
-            height={800}
-          />
+          {/* Mục tiêu */}
+          <div className="bg-white/90 dark:bg-gray-800/70 rounded-xl p-6 shadow-md backdrop-blur-sm">
+            <h3 className="text-lg mb-2 text-indigo-600">🎯 Mục Tiêu</h3>
+            <p className="">
+              Trở thành một Fullstack Developer có tư duy sản phẩm – vừa giỏi kỹ
+              thuật, vừa hiểu người dùng. Mình đang hướng tới freelance và các
+              dự án cá nhân thực tế, phục vụ cộng đồng.
+            </p>
+          </div>
+
+          {/* Dự án cá nhân */}
+          <div className="bg-white/90 dark:bg-gray-800/70 rounded-xl p-6 shadow-md backdrop-blur-sm">
+            <h3 className="text-lg mb-2 text-indigo-600">🚀 Dự án</h3>
+            <ul className="space-y-2 list-disc list-inside">
+              <li>
+                <strong>Blog cá nhân:</strong> Next.js, Markdown, tối ưu SEO,
+                theme indigo
+              </li>
+              <li>
+                <strong>Web bán hàng:</strong> Dashboard quản trị, upload ảnh,
+                lọc đơn hàng
+              </li>
+              <li>
+                <strong>Admin quản lý vé số:</strong> CRUD, phân quyền, thống kê
+              </li>
+            </ul>
+          </div>
+
+          {/* Sở thích & lối sống */}
+          <div className="bg-white/90 dark:bg-gray-800/70 rounded-xl p-6 shadow-md backdrop-blur-sm">
+            <h3 className="text-lg mb-2 text-indigo-600">🏃 Lối sống</h3>
+            <ul className="list-disc list-inside  space-y-1">
+              <li>Ưu tiên sống tối giản – học sâu – code chắc</li>
+              <li>Yêu thích đọc sách, tập thể dục, sống chậm</li>
+              <li>Viết blog để hệ thống lại tư duy</li>
+              <li>Uống cafe</li>
+            </ul>
+          </div>
+        </div>
+
+        {/* Quote cá nhân */}
+        <div className="mt-16 text-center max-w-2xl mx-auto">
+          <blockquote className="italic text-muted-foreground">
+            “Code không chỉ là giải pháp kỹ thuật, mà là cách mình thể hiện sự
+            ngăn nắp trong tư duy.”
+          </blockquote>
+        </div>
+
+        {/* Social Links */}
+        <div className="space-y-4">
+          <div className="flex gap-3 justify-center mt-10">
+            <Link
+              href="mailto:giabao@example.com"
+              aria-label="Email"
+              className="rounded-full bg-gray-200 p-2 hover:bg-gray-300 transition"
+            >
+              <Mail className="h-5 w-5 text-gray-700" />
+            </Link>
+            <Link
+              href="https://linkedin.com/in/yourusername"
+              aria-label="LinkedIn"
+              target="_blank"
+              className="rounded-full bg-gray-200 p-2 hover:bg-gray-300 transition"
+            >
+              <Linkedin className="h-5 w-5 text-gray-700" />
+            </Link>
+            <Link
+              href="https://facebook.com"
+              target="_blank"
+              aria-label="Facebook"
+              className="rounded-full bg-gray-200 p-2 hover:bg-gray-300 transition"
+            >
+              <Facebook className="h-5 w-5 text-gray-700" />
+            </Link>
+            <Link
+              href="https://github.com/yourusername"
+              target="_blank"
+              aria-label="Github"
+              className="rounded-full bg-gray-200 p-2 hover:bg-gray-300 transition"
+            >
+              <Github className="h-5 w-5 text-gray-700" />
+            </Link>
+          </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 }

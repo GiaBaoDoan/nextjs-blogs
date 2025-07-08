@@ -9,7 +9,7 @@ import { Input } from "../ui/input";
 
 export default function Footer() {
   return (
-    <footer className="bg-slate-100 text-gray-800 mt-20 border-t">
+    <footer className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border border-t">
       <div className="container mx-auto grid gap-5 py-20 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
         {/* brand */}
         <div className="space-y-4">
