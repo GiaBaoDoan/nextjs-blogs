@@ -10,3 +10,8 @@ export enum UserStatus {
   PRIVATE = "Lưu trữ",
   PUBLIC = "Công khai",
 }
+
+export enum EmailType {
+  RESET_PASSWORD = "reset_password",
+  VERIFY = "verify_email",
+}

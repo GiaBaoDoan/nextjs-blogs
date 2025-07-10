@@ -1,7 +1,7 @@
+"use client";
+
 import { LoginForm } from "@/components/auth/LoginForm";
 
-const Login = () => {
+export default function Login() {
   return <LoginForm />;
-};
-
-export default Login;
+}

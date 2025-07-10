@@ -13,11 +13,11 @@ export const navLinks: tLink[] = [
     link_text: "Bài viết",
   },
   {
-    href: "/about",
+    href: "/#",
     link_text: "Giới thiệu",
   },
   {
-    href: "/contact",
+    href: "#",
     link_text: "Liên hệ",
   },
 ];

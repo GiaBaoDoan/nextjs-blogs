@@ -25,7 +25,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         disableTransitionOnChange
       >
         <SessionProvider>
-          <Navbar />
+          {!isAuthPath && <Navbar />}
           {children}
           <Toaster />
           <BacktoTop />

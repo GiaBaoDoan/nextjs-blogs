@@ -25,13 +25,15 @@ const BlogCard = ({ blog }: { blog: Blog }) => {
         className="w-full h-48 object-cover rounded-lg mb-4"
       />
       <Badge className="mb-3" variant="primary">
-        {blog.category.name}
+        {blog?.category?.name || ""}
       </Badge>
       <div className="space-y-2 mb-5">
         <h4 className="font-medium hover:text-indigo-600 hover:underline transition-all">
           {blog.title}
         </h4>
-        <p className="text-muted-foreground line-clamp-2">{blog.description}</p>
+        <p className="text-muted-foreground text-sm line-clamp-2">
+          {blog.description}
+        </p>
       </div>
       <div className="text-xs text-muted-foreground flex items-center gap-3">
         <p className="border-r pr-3">

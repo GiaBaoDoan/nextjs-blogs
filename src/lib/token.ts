@@ -11,15 +11,24 @@ export const createHashToken = async (userId: string) => {
   return data.token;
 };
 
-export const findToken = async (userId: string, tokenValue: string) => {
-  const token = await Token.findOne({
-    userId,
-    token: tokenValue,
-  });
+export const findToken = async ({
+  userId,
+  token,
+}: {
+  userId: string;
+  token: string;
+}) => {
+  try {
+    const existToken = await Token.findOne({
+      userId,
+      token,
+    });
 
-  if (!token) {
-    throw new CustomError("Xác thực thất bại !!", 401);
+    if (!existToken) {
+      throw new CustomError("Token đã hết hạn hoặc không đúng", 401);
+    }
+    return existToken;
+  } catch (err) {
+    throw new Error("Token đã hết hạn hoặc không đúng");
   }
-
-  return token;
 };

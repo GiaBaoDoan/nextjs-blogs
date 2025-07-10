@@ -3,8 +3,10 @@ import { sendEmail } from "@/lib/email";
 import { withErrorHandler } from "@/lib/errorHandler";
 import { createHashToken } from "@/lib/token";
 import { User } from "@/types/user.type";
-import connect from "@/lib/database";
 import { NextRequest, NextResponse } from "next/server";
+import { EmailType } from "@/constants/enum";
+
+import connect from "@/lib/database";
 
 connect();
 
@@ -15,9 +17,12 @@ async function postHandler(request: NextRequest) {
 
   const token = await createHashToken(user._id);
 
-  const link = `http://localhost:3000/auth/verify/${user._id}/${token}`;
-
-  await sendEmail({ email: user.email, link });
+  await sendEmail({
+    to: user.email,
+    type: EmailType.VERIFY,
+    token,
+    userId: user._id,
+  });
 
   return NextResponse.json(
     {

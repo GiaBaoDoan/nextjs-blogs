@@ -1,20 +1,23 @@
 import CustomError from "@/lib/cutomError";
 import connect from "@/lib/database";
 import Token from "@/models/Token";
-import User from "@/models/User";
+import UserModel from "@/models/User";
 
-import { withErrorHandler } from "@/lib/errorHandler";
 import { findToken } from "@/lib/token";
 import { NextResponse } from "next/server";
+import { withErrorHandler } from "@/lib/errorHandler";
+import { hashPassword } from "@/lib/hash";
 
-async function getHandler(
-  _: Request,
+async function postHandler(
+  req: Request,
   { params }: { params: Promise<{ id: string; token: string }> }
 ) {
   await connect();
 
   const { id, token } = await params;
-  const user = await User.findById(id);
+  const { newPassword } = await req.json();
+
+  const user = await UserModel.findById(id);
 
   if (!user) {
     throw new CustomError("Token không hợp lệ hoặc đã hết hạn !!", 401);
@@ -22,16 +25,22 @@ async function getHandler(
 
   const existToken = await findToken({ userId: id, token });
 
-  await User.findByIdAndUpdate(user._id, { isVerified: true }, { new: true });
+  const hashedPassword = await hashPassword(newPassword);
+
+  await UserModel.findByIdAndUpdate(
+    user._id,
+    { password: hashedPassword },
+    { new: true }
+  );
 
   await Token.findByIdAndDelete(existToken._id);
 
   return NextResponse.json(
     {
-      message: "Email của bạn đã được xác minh !!",
+      message: "Mật khẩu của bạn đã được đặt lại !!",
     },
     { status: 200 }
   );
 }
 
-export const GET = withErrorHandler(getHandler);
+export const POST = withErrorHandler(postHandler);

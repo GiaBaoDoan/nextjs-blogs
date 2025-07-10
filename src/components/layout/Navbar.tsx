@@ -1,10 +1,10 @@
 "use client";
 
-import UserAuth from "@/components/auth/UserAuth";
 import Logo from "@/components/ui/logo";
 import HamburgerMenu from "@/components/layout/HamburgerMenu ";
 import AdminNavLinks from "@/components/layout/AdminNavLinks";
 import ClientNavLinks from "@/components/layout/ClientNavLinks";
+import AccountTrigger from "@/components/auth/AccountTrigger";
 
 import { cn } from "@/lib/utils";
 import { useHeaderHidden } from "@/hooks/useHeader";
@@ -28,7 +28,7 @@ export default function Navbar() {
         <Logo />
         {isAdminPath ? <AdminNavLinks /> : <ClientNavLinks />}
         <div className="flex items-center gap-3">
-          <UserAuth />
+          <AccountTrigger />
           <HamburgerMenu />
         </div>
       </div>

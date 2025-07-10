@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import UserAvatar from "@/components/users/UserAvatar";
 
 import {
@@ -18,7 +17,7 @@ import { LogOut, Settings, User } from "lucide-react";
 import { useFetchAccount } from "@/hooks/useAccount";
 import { useLogout } from "@/hooks/useAuth";
 
-const UserAuth = () => {
+const AccountTrigger = () => {
   const { data } = useFetchAccount();
   const { mutate } = useLogout();
 
@@ -58,14 +57,14 @@ const UserAuth = () => {
     </DropdownMenu>
   ) : (
     <div className="flex gap-2">
-      <Button variant="ghost" asChild>
+      <Button variant="outline" asChild>
         <Link href="/auth/login">Đăng nhập</Link>
       </Button>
-      <Button asChild>
+      <Button variant="primary">
         <Link href="/auth/register">Đăng ký</Link>
       </Button>
     </div>
   );
 };
 
-export default UserAuth;
+export default AccountTrigger;

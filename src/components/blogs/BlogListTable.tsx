@@ -76,7 +76,9 @@ export default function BlogListTable() {
       header: "Danh mục",
       accessorKey: "category",
       cell: ({ row }) => {
-        return <Badge variant="secondary">{row.original.category.name}</Badge>;
+        return (
+          <Badge variant="secondary">{row.original?.category?.name}</Badge>
+        );
       },
     },
 
