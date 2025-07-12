@@ -18,6 +18,7 @@ import {
   defaultValues,
 } from "@/schema/reset-password.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 
@@ -29,7 +30,8 @@ const ResetPasswordForm = () => {
 
   const { id, token } = useParams();
 
-  const { mutate, isError, isSuccess, error, data } = useResetPassword();
+  const { mutate, isError, isSuccess, error, data, isPending } =
+    useResetPassword();
 
   const onSubmit = (data: ResetPasswordSchemaType) => {
     mutate({
@@ -56,6 +58,7 @@ const ResetPasswordForm = () => {
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <FormField
+              disabled={isPending}
               control={form.control}
               name="newPassword"
               render={({ field }) => (
@@ -69,6 +72,7 @@ const ResetPasswordForm = () => {
               )}
             />
             <FormField
+              disabled={isPending}
               control={form.control}
               name="confirmPassword"
               render={({ field }) => (
@@ -86,8 +90,10 @@ const ResetPasswordForm = () => {
             {isSuccess && <AlertBox message={data.message} type="success" />}
 
             <Button
+              className="w-full"
+              disabled={isPending}
               type="submit"
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+              variant="primary"
             >
               Xác nhận đặt lại mật khẩu
             </Button>
@@ -99,9 +105,9 @@ const ResetPasswordForm = () => {
           <span className="text-gray-600 dark:text-gray-300">
             Nhớ mật khẩu?{" "}
           </span>
-          <a href="/auth/login" className="text-blue-600 hover:underline">
+          <Link href="/auth/login" className="text-blue-600 hover:underline">
             Đăng nhập
-          </a>
+          </Link>
         </div>
       </div>
     </div>

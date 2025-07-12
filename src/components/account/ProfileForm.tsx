@@ -20,8 +20,9 @@ import {
   defaultValues,
 } from "@/schema/profile.schema";
 import { useUpdateProfile } from "@/hooks/useAccount";
-import { CircleCheck } from "lucide-react";
-import { toast } from "sonner";
+
+import SuccessToast from "@/components/custom/SuccessToast";
+import { useSession } from "next-auth/react";
 
 const Profile = ({ account }: { account: User }) => {
   const form = useForm<ProfileType>({
@@ -31,13 +32,13 @@ const Profile = ({ account }: { account: User }) => {
 
   const { mutate, isPending } = useUpdateProfile();
 
+  const { data: session, update } = useSession();
+
   const onSubmit = (data: ProfileType) => {
     mutate(data, {
       onSuccess: (res) => {
-        toast("Thành công", {
-          icon: <CircleCheck fill="black" size="20" color="white" />,
-          description: res.message,
-        });
+        SuccessToast(res.message);
+        update({ name: data.username, ...session?.user });
       },
     });
   };

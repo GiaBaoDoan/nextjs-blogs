@@ -1,6 +1,6 @@
 import Credentials from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
-import { NextAuthOptions } from "next-auth";
+import { JWT, NextAuthOptions } from "next-auth";
 import { login } from "@/lib/auth";
 import { User } from "@/types/user.type";
 
@@ -38,21 +38,24 @@ export const authOptions: NextAuthOptions = {
   ],
 
   callbacks: {
-    async jwt({ token, user }) {
-      if (user) {
-        token.id = user.id;
+    async jwt({ token, user, trigger, session }) {
+      if (trigger === "update") {
+        return { ...token, ...session.user };
       }
+
+      if (user) {
+        token.user = user;
+      }
+
       return token;
     },
     async session({ session, token }) {
-      if (token) {
-        session.user.id = token.id as string;
-      }
+      session.user = token.user as JWT;
       return session;
     },
   },
   session: {
-    maxAge: 30 * 24 * 60 * 60,
+    maxAge: 1 * 24 * 60 * 60,
   },
 
   pages: {

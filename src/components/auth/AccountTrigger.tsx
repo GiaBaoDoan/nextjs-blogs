@@ -25,7 +25,7 @@ const AccountTrigger = () => {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <button>
-          <UserAvatar avatar={data.data.image} />
+          <UserAvatar avatar={data?.data?.image as string} />
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">

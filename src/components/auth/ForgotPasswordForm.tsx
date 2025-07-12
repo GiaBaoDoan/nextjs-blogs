@@ -21,6 +21,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { defaultValues } from "@/schema/login.schema";
 import { useForgotPassword } from "@/hooks/useAuth";
+import Link from "next/link";
 
 const ForgotPasswordForm = () => {
   const form = useForm<ForgotPasswordSchemaType>({
@@ -28,7 +29,8 @@ const ForgotPasswordForm = () => {
     defaultValues,
   });
 
-  const { data, mutate, isError, isSuccess, error } = useForgotPassword();
+  const { data, mutate, isError, isSuccess, error, isPending } =
+    useForgotPassword();
 
   const onSubmit = (data: ForgotPasswordSchemaType) => {
     mutate(data);
@@ -51,6 +53,7 @@ const ForgotPasswordForm = () => {
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <FormField
+              disabled={isPending}
               control={form.control}
               name="email"
               render={({ field }) => (
@@ -72,8 +75,10 @@ const ForgotPasswordForm = () => {
             {isSuccess && <AlertBox message={data.message} type="success" />}
 
             <Button
+              className="w-full"
+              disabled={isPending}
               type="submit"
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+              variant="primary"
             >
               Gửi liên kết đặt lại mật khẩu
             </Button>
@@ -83,9 +88,9 @@ const ForgotPasswordForm = () => {
         {/* Footer */}
         <div className="text-center text-sm">
           <span className="text-gray-600 dark:text-gray-300">Quay lại? </span>
-          <a href="/auth/signin" className="text-blue-600 hover:underline">
+          <Link href="/auth/login" className="text-blue-600 hover:underline">
             Đăng nhập
-          </a>
+          </Link>
         </div>
       </div>
     </div>
